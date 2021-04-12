@@ -1,0 +1,36 @@
+CREATE TABLE User (
+  id int(10) NOT NULL AUTO_INCREMENT,
+  name varchar(255) NOT NULL,
+  password varchar(255) NOT NULL,
+  avatar varchar(255),
+  email varchar(255) NOT NULL UNIQUE,
+  PRIMARY KEY (id)
+)
+
+CREATE TABLE Reader(
+  listBooksWrote varchar(255) 
+)INHERITS (User);
+
+CREATE TABLE Author(
+  listBooksRead varchar(255) 
+)INHERITS (User);
+
+CREATE TABLE Book(
+  author int REFERENCES Author,
+  date DATETIME NOT NULL,
+  editor varchar(255),
+  rating int(10),
+  descriptioon TEXT NOT NULL,
+  id int(10) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY(id)
+)
+
+CREATE TABLE Comment(
+  id int(10) NOT NULL AUTO_INCREMENT,
+  rating int(10),
+  date DATETIME NOT NULL,
+  author int REFERENCES User,
+  content TEXT NOT NULL,
+  book int(11) REFERENCES Book,
+  PRIMARY KEY(id)
+)
