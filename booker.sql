@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : lun. 12 avr. 2021 à 15:33
+-- Généré le : lun. 12 avr. 2021 à 17:12
 -- Version du serveur :  10.4.14-MariaDB
 -- Version de PHP : 7.4.11
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `authors` (
   `user_id` int(10) NOT NULL,
-  `listBooksRead` varchar(255) DEFAULT NULL
+  `listBooksWrote` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -70,7 +70,7 @@ CREATE TABLE `comments` (
 
 CREATE TABLE `readers` (
   `user_id` int(10) NOT NULL,
-  `listBooksWrote` varchar(255) DEFAULT NULL
+  `listBooksRead` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
