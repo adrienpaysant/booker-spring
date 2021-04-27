@@ -42,6 +42,7 @@ sonarqube:
   image: maven:latest
   script:
     - echo "start sonarqube upload to cloud"
+    - cd Booker
     - mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
     - echo "sonarqube ok"
   only:
