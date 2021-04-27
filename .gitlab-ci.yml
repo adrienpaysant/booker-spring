@@ -37,20 +37,20 @@ unit_tests:
   tags:
     - booker-runner
 
-# sonarqube:
-#   image: maven:latest
-#   stage: sonarqube
-#   variables:      
-#     SPRING_DATASOURCE_USERNAME: root
-#     SPRING_DATASOURCE_PASSWORD: root
-#     SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3302/bookerdb?autoReconnect=true&useSSL=false&createDatabaseIfNotExist=true
-#   script:
-#     - echo "Start 'Sonarqube stage'."
-#     - cd Booker
-#     - mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -DskipTests=true -Dmaven.test.failure.ignore=true
-#     - echo "sonarqube ok"
-#   tags:
-#     - booker-runner
+sonarqube:
+  image: maven:latest
+  stage: sonarqube
+  variables:      
+    SPRING_DATASOURCE_USERNAME: root
+    SPRING_DATASOURCE_PASSWORD: root
+    SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3302/bookerdb?autoReconnect=true&useSSL=false&createDatabaseIfNotExist=true
+  script:
+    - echo "Start 'Sonarqube stage'."
+    - cd Booker
+    - mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+    - echo "sonarqube ok"
+  tags:
+    - booker-runner
 
 
 deploy_ssh:
