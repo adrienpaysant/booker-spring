@@ -16,16 +16,16 @@ services:
     networks:
       - backend  
 
-  # adminer:
-  #   image: adminer
-  #   restart: always
-  #   depends_on: 
-  #     - mysql-db
-  #   ports:
-  #     - 8080:8080
-  #   networks:
-  #     - backend 
-  #     - frontend
+  adminer:
+    image: adminer
+    restart: always
+    depends_on: 
+      - mysql-db
+    ports:
+      - 8080:8080
+    networks:
+      - backend 
+      - frontend
         
   spring-app:
     container_name: spring-app
