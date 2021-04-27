@@ -46,7 +46,7 @@ sonarqube:
     - mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
     - echo "sonarqube ok"
   only:
-    - main
+    - master
   tags:
     - booker-runner
 
