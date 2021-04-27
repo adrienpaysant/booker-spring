@@ -38,19 +38,17 @@ unit_tests:
     - booker-runner
 
 sonarqube:
-  image: maven:latest
   stage: sonarqube
-  variables:      
-    SPRING_DATASOURCE_USERNAME: root
-    SPRING_DATASOURCE_PASSWORD: root
-    SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3302/bookerdb?autoReconnect=true&useSSL=false&createDatabaseIfNotExist=true
+  image: maven:latest
   script:
-    - echo "Start 'Sonarqube stage'."
-    - cd Booker
+    - echo "start sonarqube upload to cloud"
     - mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
     - echo "sonarqube ok"
+  only:
+    - main
   tags:
     - booker-runner
+
 
 
 deploy_ssh:
