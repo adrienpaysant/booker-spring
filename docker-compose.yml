@@ -2,6 +2,8 @@ version: '3'
 services:
   mysql-db:
     image: mysql
+    ports:
+      - 3307:3306
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
