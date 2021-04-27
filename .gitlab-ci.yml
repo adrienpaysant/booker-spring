@@ -38,19 +38,25 @@ unit_tests:
     - booker-runner
 
 sonarqube:
-  image: maven:latest
   stage: sonarqube
   variables:      
     SPRING_DATASOURCE_USERNAME: root
     SPRING_DATASOURCE_PASSWORD: root
     SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3302/bookerdb?autoReconnect=true&useSSL=false&createDatabaseIfNotExist=true
   script:
-    - echo "Start 'Sonarqube stage'."
+    - echo "start sonarqube upload to cloud"
+    - sudo docker run -p 127.0.0.1:3302:3306  --name testing-db -e MYSQL_ROOT_PASSWORD=root -d mariadb:latest
     - cd Booker
-    - mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+    - mvn verify "org.sonarsource.scanner.maven:sonar-maven-plugin:sonar"
+    - sudo docker stop testing-db
+    - sudo docker rm testing-db -v
     - echo "sonarqube ok"
+  only:
+    - master
   tags:
     - booker-runner
+
+
 
 
 deploy_ssh:
