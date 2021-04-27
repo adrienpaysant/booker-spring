@@ -49,7 +49,7 @@ deploy_docker:
   only:
     - master
   tags:
-    - alpine-docker
+    - booker-runner
   when: manual
 
 after_script:
