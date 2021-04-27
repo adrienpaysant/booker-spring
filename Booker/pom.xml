@@ -15,6 +15,9 @@
 	<description>Books management project</description>
 	<properties>
 		<java.version>11</java.version>
+		<sonar.projectKey>adrienpaysant_mirror-Booker</sonar.projectKey>
+	    <sonar.organization>adrienpaysant</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 	<dependencies>
 		<dependency>
