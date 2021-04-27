@@ -1,8 +1,5 @@
 image: ubuntu
 
-variables:
-  SOME_VAR: "some value"
-
 stages:
   - build
   - test
@@ -10,82 +7,63 @@ stages:
   - deploy
 
 before_script:
-  - echo "Start CI/CD"
-  - echo "SOME_VAR = $SOME_VAR" # calls my custom variable
-  - echo $CI_JOB_STAGE  # calls a predefined variable -  https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
-  - echo $CI_COMMIT_SHORT_SHA # calls another predefined variable
+  - echo "Start CI/CD Booker"
 
 build:
-  stage: build
   image: maven:latest
+  stage: build
   script:
-    - echo "Build process" 
-    - cd booker/Booker/ ; mvn clean package -DskipTests #Enlever les skipsTest après avoir test le premier deploy
-    - echo "Build ok"
-  only:
-    - main
+    - echo "Start 'Build process' "
+    - cd Booker
+    - mvn clean package -DskipTests
+    - echo "Build process successfully done !"
   tags:
     - booker-runner
 
-unittest:
+unit_tests:
   stage: test
   variables:      
     SPRING_DATASOURCE_USERNAME: root
-    SPRING_DATASOURCE_PASSWORD: toor
+    SPRING_DATASOURCE_PASSWORD: root
     SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3302/bookerdb?autoReconnect=true&useSSL=false&createDatabaseIfNotExist=true
   script:
-    - echo "start test"
-    - cd booker/Booker/ ;docker run -p 127.0.0.1:3302:3306  --name testing-db -e MYSQL_ROOT_PASSWORD=toor -d mariadb:latest
-    - mvn test
-    - docker stop testing-db
-    - docker rm testing-db
-    - echo "test ok"
-  only:
-    - main
+    - echo "Start 'Test process' "
+    - cd Booker
+    - sudo docker run -p 127.0.0.1:3302:3306  --name test-db -e MYSQL_ROOT_PASSWORD=root -d mariadb:latest
+    - mvn clean test
+    - sudo docker stop test-db
+    - sudo docker rm test-db -v
+    - echo "Test process successfully done !"
   tags:
     - booker-runner
 
-katalon_test_suite:
-  stage: test
-  script:
-    - echo "start katalon test suite"
-    - echo "katalon test suite ok"
-  only:
-    - main
-  tags:
-    - alpine-docker
-
 sonarqube:
+  image: maven:latest
   stage: sonarqube
   variables:      
     SPRING_DATASOURCE_USERNAME: root
-    SPRING_DATASOURCE_PASSWORD: toor
+    SPRING_DATASOURCE_PASSWORD: root
     SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3302/bookerdb?autoReconnect=true&useSSL=false&createDatabaseIfNotExist=true
   script:
-    - echo "start sonarcloud stage"
-    - cd booker/Booker ;docker run -p 127.0.0.1:3302:3306  --name testing-db -e MYSQL_ROOT_PASSWORD=toor -d mariadb:latest
-    - mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
-    - docker stop testing-db
-    - docker rm testing-db
-    - echo "sonacloud ok"
-  only:
-    - main
+    - echo "Start 'Sonarqube stage'."
+    - cd Booker
+    - mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -DskipTests=true -Dmaven.test.failure.ignore=true
+    - echo "sonarqube ok"
   tags:
     - booker-runner
 
-deploy_ssh:
+deploy_docker:
   stage: deploy
-  before_script:
-    - echo "do some stuff before"
   script:
-    - echo "deploy apps"
-    - cd booker/Booker ; docker-compose down; docker-compose up -d
-    - echo "deploy ok"
+    - echo "Start 'Deployment process' "
+    - sudo docker-compose down
+    - sudo docker-compose up -d --build
+    - echo "Deployment successfull !"
   only:
-    - main
+    - master
   tags:
     - booker-runner
   when: manual
 
 after_script:
-  - echo "End CI/CD"
+  - echo "End CI/CD for Booker"
