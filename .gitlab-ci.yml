@@ -39,12 +39,13 @@ unit_tests:
 
 
 
-deploy_docker:
+deploy_ssh:
   stage: deploy
   script:
     - echo "Start 'Deployment process' "
     - sudo docker-compose down --remove-orphans
     - sudo docker-compose up -d --build
+    - sudo docker-compose ps
     - echo "Deployment successfull !"
   only:
     - master
