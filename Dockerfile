@@ -5,11 +5,11 @@ FROM openjdk:11 as build
 WORKDIR /app
 
 # Copy maven executable to the image
-COPY mvnw .
-COPY .mvn .mvn
+COPY Booker/mvnw .
+COPY Booker/.mvn .mvn
 
 # Copy the pom.xml file
-COPY pom.xml .
+COPY Booker/pom.xml .
 
 # remove ending of window format
 RUN sed -i 's/\r$//' mvnw
@@ -22,7 +22,7 @@ RUN ./mvnw dependency:go-offline -B
 
 
 # Copy the project source
-COPY src src
+COPY Booker/src src
 
 # Package the application
 RUN ./mvnw package -DskipTests
