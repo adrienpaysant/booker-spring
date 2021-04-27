@@ -37,6 +37,21 @@ unit_tests:
   tags:
     - booker-runner
 
+katalon_test_suite:
+  stage: test
+  script:
+    - echo "start katalon test suite"
+    # - katalon -noSplash  -runMode=console -consoleLog -projectPath=
+    #       "<Your_Project_Directory>" -retry=0
+    #       -testSuitePath="Test Suites/<Test_Suite_Name>" -executionProfile=
+    #       "default" -browserType="Chrome (headless)"
+    - echo "katalon test suite ok"
+  only:
+    - master
+  tags:
+    - booker-runner
+
+
 sonarqube:
   stage: sonarqube
   variables:      
