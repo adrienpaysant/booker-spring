@@ -27,8 +27,8 @@
 		</div>
 	</nav>
 
-<br>
-<br>
+	<br>
+	<br>
 	<!-- Create HTML registration form -->
 	<div class="container">
 		<div class="row">
@@ -66,7 +66,11 @@
 							id="password" class="form-control" type="password"
 							th:field="*{password}" required autofocus="autofocus" />
 					</div>
-
+					<div class="form-group">
+					<label class="control-label" > Check is you're an author : </label>
+						<input type="checkbox" name="author"
+							th:checked="${author}" />
+					</div>
 					<div class="form-group">
 						<button type="submit" class="btn btn-success">Register</button>
 						<span>Already registered? <a href="/" th:href="@{/login}">Login
