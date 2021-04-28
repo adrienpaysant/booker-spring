@@ -15,8 +15,14 @@ public class MainController {
 
 	@GetMapping("/")
 	public String home() {
-		
+
 		return "index";
+	}
+
+	@GetMapping("/profile")
+	public String profile() {
+		//TODO add content
+		return "profile";
 	}
 
 }

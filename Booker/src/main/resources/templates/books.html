@@ -29,8 +29,6 @@
 				<ul class="nav navbar-nav">
 					<li sec:authorize="isAuthenticated()"><a th:href="@{/books}">All
 							Books</a></li>
-						<li sec:authorize="hasRole('ROLE_AUTHOR')"><a
-							th:href="@{/mybooks}">My Books</a></li>
 					<li sec:authorize="isAuthenticated()"><a th:href="@{/profile}">Profile</a></li>
 					<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
 				</ul>
