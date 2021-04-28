@@ -1,5 +1,7 @@
 package ch.hearc.qdljee.user;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -13,5 +15,15 @@ public class ConfirmationTokenService {
 	void saveConfirmationToken(ConfirmationToken confirmationToken) {
 
 		confirmationTokenRepository.save(confirmationToken);
+	}
+
+	void deleteConfirmationToken(Long id) {
+
+		confirmationTokenRepository.deleteById(id);
+	}
+
+	Optional<ConfirmationToken> findConfirmationTokenByToken(String token) {
+
+		return confirmationTokenRepository.findConfirmationTokenByConfirmationToken(token);
 	}
 }
