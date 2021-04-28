@@ -56,5 +56,18 @@ public class ShopeUserDetails implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("UserDto [firstname=");
+		builder.append(user.getFirstName());
+		builder.append(", lastname=");
+		builder.append(user.getLastName());
+		builder.append(", email=");
+		builder.append(user.getEmail());
+		builder.append("]");
+		return builder.toString();
+	}
+
 
 }
