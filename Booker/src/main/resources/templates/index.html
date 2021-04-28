@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="ISO-8859-1">
 <title>Registration and Login App</title>
@@ -38,8 +38,19 @@
 	<br>
 
 	<div class="container">
-		<h1>Registration and Login </h1>
+		<h1>Registration and Login</h1>
 		Welcome <span sec:authentication="principal.username"> User</span>
+	<!-- 	
+	Only for tips
+	<div sec:authorize="hasRole('ROLE_READER')">This content is only
+			shown to readers.
+		</div>
+		<div sec:authorize="hasRole('ROLE_AUTHOR')">This content is only
+			shown to authors.
+		</div>
+		<div sec:authorize="hasRole('ROLE_ADMIN')">This content is only
+			shown to administrators.
+		</div> -->
 	</div>
 </body>
 </html>
