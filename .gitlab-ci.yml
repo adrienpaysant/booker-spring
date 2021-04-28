@@ -17,6 +17,8 @@ build:
     - cd Booker
     - mvn clean package -DskipTests
     - echo "Build process successfully done !"
+  only:
+    - master
   tags:
     - booker-runner
 
@@ -34,6 +36,9 @@ unit_tests:
     - sudo docker stop test-db
     - sudo docker rm test-db -v
     - echo "Test process successfully done !"
+  only:
+    - master
+
   tags:
     - booker-runner
 
