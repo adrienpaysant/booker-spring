@@ -58,7 +58,7 @@ public class ProfileController {
 		if (Tools.isValidEmail(ppForm.getEmail())) {
 			now.setEmail(ppForm.getEmail());
 			userService.save(now);
-			if (message == "") {
+			if (message.equals("")) {
 				message += "successEmail";
 			} else {
 				message += "&successEmail";
@@ -66,7 +66,7 @@ public class ProfileController {
 
 		} else {
 			if (!(ppForm.getEmail().isEmpty() || ppForm.getEmail().isBlank())) {
-				if (message == "") {
+				if (message.equals("")) {
 					message += "errorEmail";
 				} else {
 					message += "&errorEmail";
