@@ -44,16 +44,22 @@
 					<div class="alert alert-warning">Wrong Data typed !</div>
 				</div>
 				<form th:action="@{/register}" method="post" th:object="${user}">
+					<script type="text/javascript">
+						function nospaces(input) {
+							input.value = input.value.replace(/s/gi, "");
+							return true;
+						}
+					</script>
 					<div class="form-group">
 						<label class="control-label" for="firstName"> First Name </label>
 						<input id="firstName" class="form-control" th:field="*{firstName}"
-							required autofocus="autofocus" />
+							required autofocus="autofocus" onkeyup="javascript:nospaces(this)" onkeydown="javascript:nospaces(this)" />
 					</div>
 
 					<div class="form-group">
 						<label class="control-label" for="lastName"> Last Name </label> <input
 							id="lastName" class="form-control" th:field="*{lastName}"
-							required autofocus="autofocus"/>
+							required autofocus="autofocus" onkeyup="javascript:nospaces(this)" onkeydown="javascript:nospaces(this)"/>
 					</div>
 
 					<div class="form-group">
@@ -69,7 +75,7 @@
 					</div>
 					<div class="form-group">
 						<label class="control-label"> Check is you're an author :
-						</label> <input type="checkbox" name="author" th:checked="*{author}" />
+						</label> <input type="checkbox" name="author" th:checked="${author}" />
 					</div>
 					<div class="form-group">
 						<button type="submit" class="btn btn-success">Register</button>

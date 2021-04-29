@@ -29,10 +29,8 @@
 				<ul class="nav navbar-nav">
 					<li sec:authorize="isAuthenticated()"><a th:href="@{/books}">All
 							Books</a></li>
-					<div sec:authorize="hasRole('ROLE_AUTHOR')">
-						<li sec:authorize="isAuthenticated()"><a
-							th:href="@{/mybooks}">My Books</a></li>
-					</div>
+					<li sec:authorize="hasRole('ROLE_AUTHOR')"><a
+						th:href="@{/mybooks}">My Books</a></li>
 					<li sec:authorize="isAuthenticated()"><a th:href="@{/profile}">Profile</a></li>
 					<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
 				</ul>
@@ -44,10 +42,71 @@
 	<br>
 
 	<div class="container">
-		<h1>Registration and Login</h1>
-		Welcome <span sec:authentication="principal.username"> User</span>
+		<h1>Profile Page</h1>
+		<div>
+			<form th:action="@{/profile/update}" method="post"
+				th:object="${pForm}">
+				<h3>Edit password</h3>
+				<div class="form-group">
+					<div th:if="${param.successPassword}">
+						<div class="alert alert-info">Password Updated !</div>
+					</div>
+					<div th:if="${param.errorPassword}">
+						<div class="alert alert-warning">Password Updated Failed !</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="password">New Password </label>
+						<input id="newPassword" class="form-control" type="password"
+							th:field="*{newPassword}" autofocus="autofocus" />
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="password">Confirm
+							Password </label> <input id="confirmPassword" class="form-control"
+							type="password" th:field="*{confirmPassword}"
+							autofocus="autofocus" />
+					</div>
+					<h3>Edit email</h3>
+					<div th:if="${param.successEmail}">
+						<div class="alert alert-info">Email Updated !</div>
+					</div>
+					<div th:if="${param.errorEmail}">
+						<div class="alert alert-warning">Email Updated Failed !</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="email"> Change email </label> <span><br>
+							Current Email : <input id="emailUser" class="form-control"
+							th:value="${user.email}" type="email" disabled /> </span> <input
+							id="email" class="form-control" th:field="*{email}"
+							autofocus="autofocus" type="email" />
+					</div>
 
-		<!-- 	
+					<h3>Edit role</h3>
+					<div sec:authorize="hasRole('ROLE_READER')">
+						<div class="form-group">
+							<label class="control-label"> Check to become author ! :
+							</label> <input type="checkbox" name="changingRole"
+								th:checked="*{changingRole}" />
+						</div>
+
+					</div>
+
+					<div sec:authorize="hasRole('ROLE_AUTHOR')">
+						<div class="form-group">
+							<label class="control-label"> Check to lose author
+								privileges </label> <input type="checkbox" name="changingRole"
+								th:checked="*{changingRole}" />
+						</div>
+
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-success">Save
+							Profile</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!-- 	
 	Only for tips
 	<div sec:authorize="hasRole('ROLE_READER')">This content is only
 			shown to readers.
