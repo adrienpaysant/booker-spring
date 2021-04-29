@@ -32,6 +32,10 @@ public class ShopeUserDetails implements UserDetails {
 		return user.getPassword();
 	}
 
+	public String getFullName() {
+		return user.getFirstName() + " " + user.getLastName();
+	}
+	
 	@Override
 	public String getUsername() {
 		return user.getEmail();

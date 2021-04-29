@@ -5,7 +5,6 @@ import java.sql.Date;
 import ch.hearc.qdljee.model.User;
 
 public class BookDto {
-	private Long id;
 	private String title;
 	private String edition;
 	private String image;
@@ -24,14 +23,6 @@ public class BookDto {
 		this.image = image;
 		this.author = author;
 		this.releaseDate = releaseDate;
-	}
-
-	public final Long getId() {
-		return id;
-	}
-
-	public final void setId(Long id) {
-		this.id = id;
 	}
 
 	public final String getTitle() {
