@@ -8,7 +8,6 @@ stages:
 
 before_script:
   - echo "Start CI/CD Booker"
-  - start /B cmd /K
 
 build:
   image: maven:latest
