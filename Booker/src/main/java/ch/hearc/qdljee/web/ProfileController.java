@@ -1,5 +1,8 @@
 package ch.hearc.qdljee.web;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import ch.hearc.qdljee.Tools;
+import ch.hearc.qdljee.model.Role;
 import ch.hearc.qdljee.model.User;
 import ch.hearc.qdljee.service.UserService;
 import ch.hearc.qdljee.web.dot.ProfilePageForm;
@@ -40,6 +44,7 @@ public class ProfileController {
 			@ModelAttribute("pForm") ProfilePageForm ppForm) {
 		User now = Tools.getCurrentUser();
 		String message = "";
+		// password
 		if (ppForm.ArePasswordsOK()) {
 			now.setPassword(passwordEncoder.encode(ppForm.getNewPassword()));
 			userService.save(now);
@@ -49,6 +54,7 @@ public class ProfileController {
 				message += "errorPassword";
 			}
 		}
+		// email
 		if (Tools.isValidEmail(ppForm.getEmail())) {
 			now.setEmail(ppForm.getEmail());
 			userService.save(now);
@@ -66,6 +72,21 @@ public class ProfileController {
 					message += "&errorEmail";
 				}
 			}
+		}
+		// role
+		if (ppForm.isChangingRole()) {
+			Collection<Role> roles = now.getRoles();
+			String roleName = "";
+			for (Role role : roles) {
+				roleName = role.getName();
+			}
+			if (roleName.equals("ROLE_READER")) {
+				now.setRoles(Arrays.asList(new Role("ROLE_AUTHOR")));
+			} else if (roleName.equals("ROLE_AUTHOR")) {
+				now.setRoles(Arrays.asList(new Role("ROLE_READER")));
+			}
+			userService.save(now);
+			return "redirect:/logout";
 		}
 		return "redirect:/profile/?" + message;
 	}

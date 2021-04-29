@@ -10,7 +10,7 @@ public class ProfilePageForm {
 	public String email;
 	public String lastName;
 	public String firstName;
-	public boolean author;
+	public boolean changingRole;
 
 	public String getNewPassword() {
 		return newPassword;
@@ -52,12 +52,12 @@ public class ProfilePageForm {
 		this.firstName = firstName;
 	}
 
-	public boolean isAuthor() {
-		return author;
+	public boolean isChangingRole() {
+		return changingRole;
 	}
 
-	public void setAuthor(boolean author) {
-		this.author = author;
+	public void setChangingRole(boolean status) {
+		this.changingRole = status;
 	}
 
 	public boolean ArePasswordsOK() {
@@ -73,6 +73,6 @@ public class ProfilePageForm {
 	}
 
 	public boolean ArePasswordsEmpty() {
-		return  newPassword.isEmpty() && confirmPassword.isEmpty();
+		return newPassword.isEmpty() && confirmPassword.isEmpty();
 	}
 }

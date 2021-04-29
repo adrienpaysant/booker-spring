@@ -84,7 +84,8 @@
 					<div sec:authorize="hasRole('ROLE_READER')">
 						<div class="form-group">
 							<label class="control-label"> Check to become author ! :
-							</label> <input type="checkbox" name="author" th:checked="*{author}" />
+							</label> <input type="checkbox" name="changingRole"
+								th:checked="*{changingRole}" />
 						</div>
 
 					</div>
@@ -92,8 +93,8 @@
 					<div sec:authorize="hasRole('ROLE_AUTHOR')">
 						<div class="form-group">
 							<label class="control-label"> Check to lose author
-								privileges </label> <input type="checkbox" name="author"
-								th:checked="*{author}" />
+								privileges </label> <input type="checkbox" name="changingRole"
+								th:checked="*{changingRole}" />
 						</div>
 
 					</div>
