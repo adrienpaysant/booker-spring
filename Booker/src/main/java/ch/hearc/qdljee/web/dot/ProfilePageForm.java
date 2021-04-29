@@ -61,8 +61,6 @@ public class ProfilePageForm {
 	}
 
 	public boolean ArePasswordsOK() {
-
-		User now = Tools.getCurrentUser();
 		if (newPassword.isEmpty() || confirmPassword.isEmpty()) {
 			return false;
 		}
