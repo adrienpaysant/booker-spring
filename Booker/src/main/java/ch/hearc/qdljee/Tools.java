@@ -7,14 +7,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import ch.hearc.qdljee.model.User;
-import ch.hearc.qdljee.service.ShopeUserDetails;
+import ch.hearc.qdljee.service.ShopUserDetails;
 
 
 public class Tools {
 
 	public static User getCurrentUser() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		ShopeUserDetails sUDetails = (ShopeUserDetails) auth.getPrincipal();
+		ShopUserDetails sUDetails = (ShopUserDetails) auth.getPrincipal();
 		return sUDetails.getUser();
 	}
 
