@@ -47,18 +47,24 @@
 						<label class="control-label" for="firstName"> First Name </label>
 						<input id="firstName" class="form-control" th:field="*{firstName}"
 							required autofocus="autofocus" />
+						<div class="alert alert-warning"
+							th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
 					</div>
 
 					<div class="form-group">
 						<label class="control-label" for="lastName"> Last Name </label> <input
 							id="lastName" class="form-control" th:field="*{lastName}"
-							required autofocus="autofocus"/>
+							required autofocus="autofocus" />
+						<div class="alert alert-warning"
+							th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
 					</div>
 
 					<div class="form-group">
 						<label class="control-label" for="email"> Email </label> <input
 							id="email" class="form-control" th:field="*{email}" required
-							autofocus="autofocus" type="email"/>
+							autofocus="autofocus" type="email" />
+						<div class="alert alert-warning"
+							th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
 					</div>
 
 					<div class="form-group">
@@ -67,9 +73,8 @@
 							th:field="*{password}" required autofocus="autofocus" />
 					</div>
 					<div class="form-group">
-					<label class="control-label" > Check is you're an author : </label>
-						<input type="checkbox" name="author"
-							th:checked="${author}" />
+						<label class="control-label"> Check is you're an author :
+						</label> <input type="checkbox" name="author" th:checked="${author}" />
 					</div>
 					<div class="form-group">
 						<button type="submit" class="btn btn-success">Register</button>
