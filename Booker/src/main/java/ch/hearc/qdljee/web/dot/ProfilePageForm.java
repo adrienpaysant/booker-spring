@@ -1,8 +1,5 @@
 package ch.hearc.qdljee.web.dot;
 
-import ch.hearc.qdljee.Tools;
-import ch.hearc.qdljee.model.User;
-
 public class ProfilePageForm {
 
 	public String newPassword;
