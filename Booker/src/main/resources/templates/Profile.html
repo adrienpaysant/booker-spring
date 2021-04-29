@@ -47,7 +47,7 @@
 		<h1>Profile Page</h1>
 		<div>
 			<form th:action="@{/updateUser}" method="post" th:object="${pForm}">
-				<h2>Edit password</h2>
+				<h3>Edit password</h3>
 				<div class="form-group">
 					<div class="form-group">
 						<label class="control-label" for="password">New Password </label>
@@ -60,13 +60,32 @@
 							type="password" th:field="*{confirmPassword}" required
 							autofocus="autofocus" />
 					</div>
+					<h3>Edit email</h3>
 					<div class="form-group">
-						<label class="control-label" for="email"> Change email </label>
-						<span><br> Current Email : <input
-							id="emailUser" class="form-control" th:value="${user.email}"
-							type="email" disabled /> </span>
-							<input id="email" class="form-control"
-							th:field="*{email}" required autofocus="autofocus" type="email" />
+						<label class="control-label" for="email"> Change email </label> <span><br>
+							Current Email : <input id="emailUser" class="form-control"
+							th:value="${user.email}" type="email" disabled /> </span> <input
+							id="email" class="form-control" th:field="*{email}" required
+							autofocus="autofocus" type="email" />
+					</div>
+					
+					<h3>Edit role</h3>
+					<div sec:authorize="hasRole('ROLE_READER')">
+						<div class="form-group">
+							<label class="control-label"> Check to become author ! :
+							</label> <input type="checkbox" name="author" th:checked="${author}"
+								value="false" />
+						</div>
+
+					</div>
+
+					<div sec:authorize="hasRole('ROLE_AUTHOR')">
+						<div class="form-group">
+							<label class="control-label"> Check to lose author
+								privileges </label> <input type="checkbox" name="author"
+								th:checked="${author}" value="false" />
+						</div>
+
 					</div>
 				</div>
 			</form>
