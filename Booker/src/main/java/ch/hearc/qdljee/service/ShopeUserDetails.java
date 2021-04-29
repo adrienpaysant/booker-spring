@@ -26,7 +26,7 @@ public class ShopeUserDetails implements UserDetails {
 	public User getUser() {
 		return user;
 	}
-	
+
 	@Override
 	public String getPassword() {
 		return user.getPassword();
@@ -56,6 +56,7 @@ public class ShopeUserDetails implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -68,6 +69,5 @@ public class ShopeUserDetails implements UserDetails {
 		builder.append("]");
 		return builder.toString();
 	}
-
 
 }
