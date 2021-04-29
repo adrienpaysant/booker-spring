@@ -44,10 +44,35 @@
 	<br>
 
 	<div class="container">
-		<h1>Registration and Login</h1>
-		Welcome <span sec:authentication="principal.username"> User</span>
-
-		<!-- 	
+		<h1>Profile Page</h1>
+		<div>
+			<form th:action="@{/updateUser}" method="post" th:object="${pForm}">
+				<h2>Edit password</h2>
+				<div class="form-group">
+					<div class="form-group">
+						<label class="control-label" for="password">New Password </label>
+						<input id="newPassword" class="form-control" type="password"
+							th:field="*{newPassword}" required autofocus="autofocus" />
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="password">Confirm
+							Password </label> <input id="confirmPassword" class="form-control"
+							type="password" th:field="*{confirmPassword}" required
+							autofocus="autofocus" />
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="email"> Change email </label>
+						<span><br> Current Email : <input
+							id="emailUser" class="form-control" th:value="${user.email}"
+							type="email" disabled /> </span>
+							<input id="email" class="form-control"
+							th:field="*{email}" required autofocus="autofocus" type="email" />
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!-- 	
 	Only for tips
 	<div sec:authorize="hasRole('ROLE_READER')">This content is only
 			shown to readers.
