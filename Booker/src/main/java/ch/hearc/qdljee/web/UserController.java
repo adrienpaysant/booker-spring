@@ -39,7 +39,8 @@ public class UserController {
 	@PostMapping
 	public String registerUserAccount(@ModelAttribute("user") UserDto registrationDto) {
 		if (registrationDto.getFirstName().length() >= 3 && registrationDto.getLastName().length() >= 3
-				&& Tools.isValidEmail(registrationDto.getEmail())) {
+				&& Tools.isValidEmail(registrationDto.getEmail())
+				&& userService.existsByEmail(registrationDto.getEmail())) {
 			userService.save(registrationDto);
 			return "redirect:/register?success";
 		} else {
