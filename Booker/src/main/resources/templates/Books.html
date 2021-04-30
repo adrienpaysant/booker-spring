@@ -27,7 +27,7 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li sec:authorize="isAuthenticated()"><a th:href="@{/books}">All
+					<li sec:authorize="isAuthenticated()"><a th:href="@{/Books}">All
 							Books</a></li>
 					<li sec:authorize="isAuthenticated()"><a th:href="@{/profile}">Profile</a></li>
 					<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
@@ -35,25 +35,16 @@
 			</div>
 		</div>
 	</nav>
-
-	<br>
-	<br>
-
+	<br/>
+	<br/>
 	<div class="container">
-		<h1>Home Page</h1>
-		Welcome <span sec:authentication="principal.username"> User</span>
-
-		<!-- 	
-	Only for tips
-	<div sec:authorize="hasRole('ROLE_READER')">This content is only
-			shown to readers.
-		</div>
-		<div sec:authorize="hasRole('ROLE_AUTHOR')">This content is only
-			shown to authors.
-		</div>
-		<div sec:authorize="hasRole('ROLE_ADMIN')">This content is only
-			shown to administrators.
-		</div> -->
+		<h1>Books</h1>
+		<th:block th:each="book : ${books}" class="d-flex flex-wrap" style="text-align:center;">
+		<a th:href="@{/Books/{id}(id=${book.id})}">
+			<img th:src="@{book.image}" /><br>
+			<span th:utext="${book.title}"></span>
+		</a>
+		</th:block>
 	</div>
 </body>
 </html>

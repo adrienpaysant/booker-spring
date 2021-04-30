@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import ch.hearc.qdljee.dto.BookDto;
 import ch.hearc.qdljee.model.Books;
+import ch.hearc.qdljee.model.User;
 import ch.hearc.qdljee.repository.BookRepositery;
 
 @Service
@@ -25,17 +26,13 @@ public class BookService {
 		return bookRepository.findById(id).get();
 	}
 
-	public void saveOrUpdate(BookDto bookDto) {
-		Books book = new Books(bookDto.getTitle(),bookDto.getDescription(),bookDto.getEdition(),bookDto.getImage(),bookDto.getAuthor(),bookDto.getReleaseDate());
+	public void saveOrUpdate(BookDto bookDto, String imageURL,User author) {
+		Books book = new Books(bookDto.getTitle(), bookDto.getDescription(), bookDto.getEdition(), imageURL,
+				author, bookDto.getReleaseDate());
 		bookRepository.save(book);
 	}
 
 	public void delete(int id) {
 		bookRepository.deleteById(id);
-	}
-
-	public void update(BookDto bookDto, int bookid) {
-		Books book = new Books(bookDto.getTitle(),bookDto.getDescription(),bookDto.getEdition(),bookDto.getImage(),bookDto.getAuthor(),bookDto.getReleaseDate());
-		bookRepository.save(book);
 	}
 }

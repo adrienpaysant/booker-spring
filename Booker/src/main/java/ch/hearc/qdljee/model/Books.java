@@ -5,14 +5,18 @@ import java.sql.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "books", uniqueConstraints = @UniqueConstraint(columnNames = "id"))
@@ -20,33 +24,32 @@ public class Books {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 
-	@NotEmpty
-	@Size(min = 3)
+	@NotEmpty(message="Please enter a title")
 	@Column(name = "title")
 	private String title;
 
-	@NotEmpty
-	@Size(min = 3)
+	@NotEmpty(message="Please enter an edition")
 	@Column(name = "edition")
 	private String edition;
 
-	@NotEmpty
-	@Size(min = 3)
-	@Column(name = "image")
+	@NotEmpty(message="invalid image")
+	@Column(name="image")
 	private String image;
 
-	@NotEmpty
-	@Size(min = 3)
+	@NotEmpty(message = "Please enter a description")
 	@Column(name = "description")
 	private String description;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@NotNull
+	@ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE},fetch=FetchType.LAZY)
+	@JoinColumn(name="user_id")
 	private User author;
 
-	@NotEmpty
+	@NotNull(message="Please enter a date")
 	@Column(name = "releaseDate")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date releaseDate;
 
 	public Books() {
@@ -63,11 +66,11 @@ public class Books {
 		this.releaseDate = releaseDate;
 	}
 
-	public final Long getId() {
+	public final Integer getId() {
 		return id;
 	}
 
-	public final void setId(Long id) {
+	public final void setId(Integer id) {
 		this.id = id;
 	}
 

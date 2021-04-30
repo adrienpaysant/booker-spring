@@ -2,26 +2,24 @@ package ch.hearc.qdljee.dto;
 
 import java.sql.Date;
 
-import ch.hearc.qdljee.model.User;
+import org.springframework.web.multipart.MultipartFile;
 
 public class BookDto {
 	private String title;
 	private String edition;
-	private String image;
+	private MultipartFile image;
 	private String description;
-	private User author;
 	private Date releaseDate;
 
 	public BookDto() {
 	}
 
-	public BookDto(String title, String description, String edition, String image, User author, Date releaseDate) {
+	public BookDto(String title, String description, String edition, MultipartFile image, Date releaseDate) {
 		super();
 		this.title = title;
 		this.description = description;
 		this.edition = edition;
 		this.image = image;
-		this.author = author;
 		this.releaseDate = releaseDate;
 	}
 
@@ -41,11 +39,11 @@ public class BookDto {
 		this.edition = edition;
 	}
 
-	public final String getImage() {
+	public final MultipartFile getImage() {
 		return image;
 	}
 
-	public final void setImage(String image) {
+	public final void setImage(MultipartFile image) {
 		this.image = image;
 	}
 
@@ -55,14 +53,6 @@ public class BookDto {
 
 	public final void setDescription(String description) {
 		this.description = description;
-	}
-
-	public final User getAuthor() {
-		return author;
-	}
-
-	public final void setAuthor(User author) {
-		this.author = author;
 	}
 
 	public final Date getReleaseDate() {

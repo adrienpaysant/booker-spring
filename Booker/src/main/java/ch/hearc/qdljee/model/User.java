@@ -71,6 +71,10 @@ public class User {
 		return firstName;
 	}
 
+	public String getFullName() {
+		return this.firstName + " " + this.lastName;
+	}
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}

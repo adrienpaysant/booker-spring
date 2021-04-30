@@ -9,11 +9,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import ch.hearc.qdljee.model.User;
 
-public class ShopeUserDetails implements UserDetails {
+public class ShopUserDetails implements UserDetails {
 
 	private User user;
 
-	public ShopeUserDetails(User user) {
+	public ShopUserDetails(User user) {
 		this.user = user;
 	}
 

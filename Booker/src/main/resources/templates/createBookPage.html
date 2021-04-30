@@ -29,35 +29,44 @@
 				<ul class="nav navbar-nav">
 					<li sec:authorize="isAuthenticated()"><a th:href="@{/Books}">All
 							Books</a></li>
-					<div sec:authorize="hasRole('ROLE_AUTHOR')">
-						<li sec:authorize="isAuthenticated()"><a
-							th:href="@{/mybooks}">My Books</a></li>
-					</div>
 					<li sec:authorize="isAuthenticated()"><a th:href="@{/profile}">Profile</a></li>
 					<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
+	<div class="container" style="max-width:50vw">
+		<h2 style="margin-left: 40vw">Add a book :</h2>
+		<form method="POST" th:action="@{/Books/create}"
+			th:object="${bookDto}" encType="multipart/form-data">
+			<div class="form-group">
+				<label for="title">Title : </label> <input required type="text"
+					name="title" class="form-control" />
+			</div>
+			<div class="form-group">
 
-	<br>
-	<br>
+				<label for="description">Description : </label>
+				<textarea required name="description" class="form-control"></textarea>
+			</div>
+			<div class="form-group">
 
-	<div class="container">
-		<h1>Registration and Login</h1>
-		Welcome <span sec:authentication="principal.username"> User</span>
+				<label for="edition">Edition :</label> <input required type="text"
+					name="edition" class="form-control" />
+			</div>
+			<div class="form-group">
 
-		<!-- 	
-	Only for tips
-	<div sec:authorize="hasRole('ROLE_READER')">This content is only
-			shown to readers.
-		</div>
-		<div sec:authorize="hasRole('ROLE_AUTHOR')">This content is only
-			shown to authors.
-		</div>
-		<div sec:authorize="hasRole('ROLE_ADMIN')">This content is only
-			shown to administrators.
-		</div> -->
+				<label for="releaseDate">Release Date :</label> <input required
+					type="date" name="releaseDate" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label for="image">Add the cover image :</label> <input required
+					type="file" accept="image/*" name="image" class="form-control" />
+			</div>
+			<div class="form-group" style="text-align:center">
+				<input type="reset" value="Reset" class="btn btn-primary"> 
+				<input type="submit" value="Add" class="btn btn-primary"/>
+			</div>
+		</form>
 	</div>
 </body>
 </html>

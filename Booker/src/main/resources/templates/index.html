@@ -27,10 +27,10 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li sec:authorize="isAuthenticated()"><a th:href="@{/books}">All
+					<li sec:authorize="isAuthenticated()"><a th:href="@{/Books}">All
 							Books</a></li>
-						<li sec:authorize="hasRole('ROLE_AUTHOR')"><a
-							th:href="@{/mybooks}">My Books</a></li>
+					<li sec:authorize="hasRole('ROLE_AUTHOR')"><a
+						th:href="@{/mybooks}">My Books</a></li>
 					<li sec:authorize="isAuthenticated()"><a th:href="@{/profile}">Profile</a></li>
 					<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
 				</ul>
@@ -43,19 +43,15 @@
 
 	<div class="container">
 		<h1>Home Page</h1>
-		Welcome <span sec:authentication="principal.username"> User</span>
+		Welcome <span sec:authentication="principal.fullName"> User</span>
 
-		<!-- 	
-	Only for tips
-	<div sec:authorize="hasRole('ROLE_READER')">This content is only
-			shown to readers.
-		</div>
-		<div sec:authorize="hasRole('ROLE_AUTHOR')">This content is only
-			shown to authors.
-		</div>
-		<div sec:authorize="hasRole('ROLE_ADMIN')">This content is only
-			shown to administrators.
-		</div> -->
+		<div sec:authorize="hasRole('ROLE_READER')">You can access to
+			all the books by clicking on "All books" in the navigation bar.</div>
+		<div sec:authorize="hasRole('ROLE_AUTHOR')">You can add your
+			books to our database and access to the list of your book with the
+			button "My books".</div>
+		<div sec:authorize="hasRole('ROLE_ADMIN')">You have full access
+			to the application as an Administrator.</div>
 	</div>
 </body>
 </html>
