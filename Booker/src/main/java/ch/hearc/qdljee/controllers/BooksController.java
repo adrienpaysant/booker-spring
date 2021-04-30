@@ -56,7 +56,10 @@ public class BooksController {
 	public String listBooks(Model model, @RequestParam("page") Optional<Integer> page,
 			@RequestParam("size") Optional<Integer> size) {
 		int currentPage = page.orElse(1);
-		int pageSize = size.orElse(5);
+		int pageSize = size.orElse(10);
+		if (pageSize > 10) {
+			pageSize = 10;
+		}
 
 		Page<Books> bookPage = bookService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
 
