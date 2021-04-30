@@ -62,9 +62,6 @@ public class BooksController {
 			pageSize = 10;
 		}
 
-		System.out.println("value : " + valueSearch);
-		System.out.println("Criter : " + criterSearch);
-
 		Page<Books> bookPage = bookService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
 
 		model.addAttribute("bookPage", bookPage);
@@ -82,8 +79,6 @@ public class BooksController {
 	public String search(Model model, //
 			@ModelAttribute("sForm") SearchDto sFrom, @RequestParam(required = true) String searchValue,
 			@RequestParam(required = true) String searchCriter) {
-		System.out.println("_val : " + searchValue);
-		System.out.println("_crit:  : " + searchCriter);
 		if (searchCriter.equals("none")) {
 			return "redirect:/Books/?valueSearch=" + searchValue;
 		} else {
