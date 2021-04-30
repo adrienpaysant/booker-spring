@@ -30,7 +30,7 @@ public class User {
 	@Size(min = 3)
 	@Column(name = "first_name")
 	private String firstName;
-
+	
 	@NotEmpty
 	@Size(min = 3)
 	@Column(name = "last_name")

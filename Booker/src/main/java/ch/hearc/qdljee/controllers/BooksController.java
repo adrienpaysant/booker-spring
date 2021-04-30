@@ -90,11 +90,10 @@ public class BooksController {
 	public String updateBookPage(Model model, @PathVariable("id") int id) {
 		model.addAttribute("updateForm", new BookDto());
 		model.addAttribute("book", bookService.getBooksById(id));
-		model.addAttribute("id", id);
 		return "updateBookPage";
 	}
 
-	@PutMapping("/{id}/update")
+	@PostMapping("/{id}/update")
 	public String updateBook(Model model, @PathVariable("id") int id, @ModelAttribute("Bookdto") BookDto bookDto) {
 		String imageURL = "/static/images/" + bookDto.getTitle() + bookDto.getEdition() + "."
 				+ bookDto.getImage().getContentType().substring(6);

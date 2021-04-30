@@ -1,4 +1,4 @@
-package ch.hearc.qdljee.web;
+package ch.hearc.qdljee.controllers;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import ch.hearc.qdljee.Tools;
+import ch.hearc.qdljee.dto.ProfilePageForm;
 import ch.hearc.qdljee.model.Role;
 import ch.hearc.qdljee.model.User;
 import ch.hearc.qdljee.service.UserService;
-import ch.hearc.qdljee.web.dot.ProfilePageForm;
 
 @Controller
 public class ProfileController {
