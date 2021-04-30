@@ -41,7 +41,7 @@
 		<h1>Books</h1>
 		<th:block th:each="book : ${books}" class="d-flex flex-wrap" style="text-align:center;">
 		<a th:href="@{/Books/{id}(id=${book.id})}">
-			<img th:src="@{book.image}" /><br>
+			<img th:src="${~/{url}(url=${book.image})}" /><br>
 			<span th:utext="${book.title}"></span>
 		</a>
 		</th:block>

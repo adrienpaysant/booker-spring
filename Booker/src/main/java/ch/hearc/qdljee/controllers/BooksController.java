@@ -1,8 +1,14 @@
 package ch.hearc.qdljee.controllers;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +35,8 @@ public class BooksController {
 	BookService bookService;
 	@Autowired
 	private HttpServletRequest request;
+	@Autowired
+	private Environment environment;
 
 	@GetMapping
 	public String index(Model model) {
@@ -50,9 +58,25 @@ public class BooksController {
 
 	@PostMapping("/create")
 	public String createBook(Model model, @ModelAttribute("BookDto") BookDto bookDto) {
-		String imageURL = request.getServletContext().getRealPath("/")+"images/"+bookDto.getTitle()+bookDto.getEdition()+"."+bookDto.getImage().getContentType();
-		User author = ((ShopUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-		bookService.saveOrUpdate(bookDto,imageURL,author);
+		String path = environment.getProperty("images.path");
+		String imageURL = bookDto.getTitle() + bookDto.getEdition() + "."
+				+ bookDto.getImage().getContentType().substring(6);
+		File image = new File(path + imageURL).getAbsoluteFile();
+		try {
+			InputStream is = bookDto.getImage().getInputStream();
+			OutputStream out = new FileOutputStream(image);
+			byte buf[] = new byte[1024];
+			int len;
+			while ((len = is.read(buf)) > 0)
+				out.write(buf, 0, len);
+			is.close();
+			out.close();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		User author = ((ShopUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+				.getUser();
+		bookService.saveOrUpdate(bookDto, path+imageURL, author);
 		return "redirect:/Books";
 	}
 
@@ -71,9 +95,11 @@ public class BooksController {
 
 	@PutMapping("/{id}/update")
 	public String updateBook(Model model, @PathVariable("id") int id, @ModelAttribute("Bookdto") BookDto bookDto) {
-		String imageURL = request.getServletContext().getRealPath("/")+"images/"+bookDto.getTitle()+bookDto.getEdition()+"."+bookDto.getImage().getContentType();
-		User author = ((ShopUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-		bookService.saveOrUpdate(bookDto,imageURL,author);
+		String imageURL = "/static/images/" + bookDto.getTitle() + bookDto.getEdition() + "."
+				+ bookDto.getImage().getContentType().substring(6);
+		User author = ((ShopUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+				.getUser();
+		bookService.saveOrUpdate(bookDto, imageURL, author);
 		return "redirect:/Books/" + id;
 	}
 }
