@@ -2,6 +2,7 @@ package ch.hearc.qdljee.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,9 +23,8 @@ public class BookService {
 	@Autowired
 	BookRepositery bookRepository;
 
-	private List<Books> books = null;
-
 	public Page<Books> findPaginated(Pageable pageable) {
+		List<Books> books = new LinkedList<Books>();
 		books = getAllBooks();
 		int pageSize = pageable.getPageSize();
 		int currentPage = pageable.getPageNumber();
@@ -41,6 +41,66 @@ public class BookService {
 		Page<Books> bookPage = new PageImpl<Books>(list, PageRequest.of(currentPage, pageSize), books.size());
 
 		return bookPage;
+	}
+
+	public Page<Books> findPaginated(PageRequest pageable, String valueSearch, String criterSearch) {
+		System.out.println("val : " + valueSearch);
+		System.out.println("crit : " + criterSearch);
+		// filter on criter to search
+		List<Books> books = new LinkedList<Books>();
+		List<Books> tempBooks = getAllBooks();
+		if (criterSearch.equals("none")) {
+			findBooksByTitle(valueSearch, tempBooks, books);
+		} else {
+			switch (criterSearch) {
+			case "author":
+				for (Books tempBook : tempBooks) {
+					if (tempBook.getAuthor().getFirstName().toLowerCase().contains(valueSearch.toLowerCase())
+							|| tempBook.getAuthor().getLastName().toLowerCase().contains(valueSearch.toLowerCase())) {
+						books.add(tempBook);
+					}
+				}
+				break;
+			case "edition":
+				for (Books tempBook : tempBooks) {
+					if (tempBook.getEdition().toLowerCase().contains(valueSearch.toLowerCase())) {
+						books.add(tempBook);
+					}
+				}
+				break;
+			case "title":
+				findBooksByTitle(valueSearch, tempBooks, books);
+				break;
+
+			default:
+				break;
+			}
+		}
+
+		int pageSize = pageable.getPageSize();
+		int currentPage = pageable.getPageNumber();
+		int startItem = currentPage * pageSize;
+		List<Books> list;
+
+		if (books.size() < startItem) {
+			list = Collections.emptyList();
+		} else {
+			int toIndex = Math.min(startItem + pageSize, books.size());
+			list = books.subList(startItem, toIndex);
+		}
+
+		Page<Books> bookPage = new PageImpl<Books>(list, PageRequest.of(currentPage, pageSize), books.size());
+
+		return bookPage;
+
+	}
+
+	private void findBooksByTitle(String valueSearch, List<Books> tempBooks, List<Books> books) {
+		for (Books tempBook : tempBooks) {
+			if (tempBook.getTitle().toLowerCase().contains(valueSearch.toLowerCase())) {
+				books.add(tempBook);
+			}
+		}
 	}
 
 	public List<Books> getAllBooks() {

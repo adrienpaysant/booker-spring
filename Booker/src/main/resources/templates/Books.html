@@ -40,6 +40,30 @@
 	<div class="container">
 		<h1>Books</h1>
 		<!-- PAGINATION BEGIN -->
+		<div id="searchBar" class="mb-0">
+			<form th:action="@{/Books/search}" method="get" th:object="${sForm}">
+				<div class="row">
+					<div class="col-sm-3 ">
+						<div class="row">
+							<select th:field="*{searchCriter}">
+								<option th:value="none">SimpleSearch</option>
+								<option th:value="author">By Author</option>
+								<option th:value="title">By Title</option>
+								<option th:value="edition">By Edition</option>
+							</select>
+							<div class="row">
+								<input type="text" id="search" name="search"
+									placeholder="You want it ? Find it ..." autofocus="autofocus"
+									required th:field="*{searchValue}"> <input
+									type="submit" name="search-submit" id="search-submit"
+									class=" btn btn-primary" value="Find" /> <a
+									th:href="@{/Books}" class="btn btn-primary">Reset</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
 		<table>
 			<th:block th:each="book, iStat : ${bookPage.content}"
 				th:style="${iStat.odd}? 'font-weight: bold;'"
