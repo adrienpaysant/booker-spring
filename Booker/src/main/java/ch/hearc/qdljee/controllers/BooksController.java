@@ -76,7 +76,7 @@ public class BooksController {
 		}
 		User author = ((ShopUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
 				.getUser();
-		bookService.saveOrUpdate(bookDto, path+imageURL, author);
+		bookService.saveOrUpdate(bookDto, imageURL, author);
 		return "redirect:/Books";
 	}
 
