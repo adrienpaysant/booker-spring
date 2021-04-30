@@ -13,7 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import ch.hearc.qdljee.Tools;
 import ch.hearc.qdljee.dto.BookDto;
 import ch.hearc.qdljee.model.Books;
 import ch.hearc.qdljee.model.User;
@@ -57,10 +56,8 @@ public class BookService {
 			case "author":
 				for (Books tempBook : tempBooks) {
 					if (tempBook.getAuthor().getFirstName().toLowerCase().contains(valueSearch.toLowerCase())
-							|| tempBook.getAuthor().getLastName().toLowerCase().contains(valueSearch.toLowerCase())) {
-						books.add(tempBook);
-					}
-					if (tempBook.getAuthor().getFullName().contentEquals(Tools.getCurrentUser().getFullName())) {
+							|| tempBook.getAuthor().getLastName().toLowerCase().contains(valueSearch.toLowerCase()) || valueSearch.toLowerCase().contains(tempBook.getAuthor().getFirstName().toLowerCase())
+							|| valueSearch.toLowerCase().contains(tempBook.getAuthor().getLastName().toLowerCase())) {
 						books.add(tempBook);
 					}
 				}
