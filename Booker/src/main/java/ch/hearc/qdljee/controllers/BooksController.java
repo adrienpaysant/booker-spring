@@ -76,7 +76,7 @@ public class BooksController {
 		}
 		User author = ((ShopUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
 				.getUser();
-		bookService.saveOrUpdate(bookDto, path+imageURL, author);
+		bookService.saveOrUpdate(bookDto, path + imageURL, author);
 		return "redirect:/Books";
 	}
 
@@ -90,7 +90,8 @@ public class BooksController {
 	public String updateBookPage(Model model, @PathVariable("id") int id) {
 		model.addAttribute("updateForm", new BookDto());
 		model.addAttribute("book", bookService.getBooksById(id));
-		return "redirect:/Books/" + id;
+		model.addAttribute("id", id);
+		return "updateBookPage";
 	}
 
 	@PutMapping("/{id}/update")

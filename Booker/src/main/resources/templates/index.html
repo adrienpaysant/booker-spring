@@ -30,7 +30,10 @@
 					<li sec:authorize="isAuthenticated()"><a th:href="@{/Books}">All
 							Books</a></li>
 					<li sec:authorize="hasRole('ROLE_AUTHOR')"><a
+						th:href="@{/Books/create}">Add Book</a></li>
+					<li sec:authorize="hasRole('ROLE_AUTHOR')"><a
 						th:href="@{/mybooks}">My Books</a></li>
+
 					<li sec:authorize="isAuthenticated()"><a th:href="@{/profile}">Profile</a></li>
 					<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
 				</ul>
