@@ -56,7 +56,8 @@ public class BookService {
 			case "author":
 				for (Books tempBook : tempBooks) {
 					if (tempBook.getAuthor().getFirstName().toLowerCase().contains(valueSearch.toLowerCase())
-							|| tempBook.getAuthor().getLastName().toLowerCase().contains(valueSearch.toLowerCase())) {
+							|| tempBook.getAuthor().getLastName().toLowerCase().contains(valueSearch.toLowerCase()) || valueSearch.toLowerCase().contains(tempBook.getAuthor().getFirstName().toLowerCase())
+							|| valueSearch.toLowerCase().contains(tempBook.getAuthor().getLastName().toLowerCase())) {
 						books.add(tempBook);
 					}
 				}
@@ -118,9 +119,11 @@ public class BookService {
 				bookDto.getReleaseDate());
 		bookRepository.save(book);
 	}
-	public void update(BookDto bookDto, String imageURL, User author,int id) throws Exception {
+
+	public void update(BookDto bookDto, String imageURL, User author, int id) throws Exception {
 		Optional<Books> book = bookRepository.findById(id);
-		if(book.isEmpty())throw new Exception("no book to update");
+		if (book.isEmpty())
+			throw new Exception("no book to update");
 		book.get().addAttributes(bookDto.getTitle(), bookDto.getDescription(), bookDto.getEdition(), imageURL, author,
 				bookDto.getReleaseDate());
 		bookRepository.save(book.get());
