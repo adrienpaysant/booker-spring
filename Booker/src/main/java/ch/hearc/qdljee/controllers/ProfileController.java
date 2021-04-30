@@ -77,6 +77,44 @@ public class ProfileController {
 				}
 			}
 		}
+		// first name & last name
+		// first
+		if (!ppForm.getFirstName().equals(now.getFirstName())) {
+			if (!(ppForm.getFirstName().isEmpty() || ppForm.getFirstName().isBlank())) {
+				now.setFirstName(ppForm.getFirstName());
+				userService.save(now);
+				if (message.equals("")) {
+					message += "successFirstName";
+				} else {
+					message += "&successFirstName";
+				}
+			} else {
+				if (message.equals("")) {
+					message += "errorFirstName";
+				} else {
+					message += "&errorFirstName";
+				}
+			}
+		}
+		// last
+		if (!ppForm.getLastName().equals(now.getLastName())) {
+			if (!(ppForm.getLastName().isEmpty() || ppForm.getLastName().isBlank())) {
+				now.setLastName(ppForm.getLastName());
+				userService.save(now);
+				if (message.equals("")) {
+					message += "successLastName";
+				} else {
+					message += "&successLastName";
+				}
+			} else {
+				if (message.equals("")) {
+					message += "errorLastName";
+				} else {
+					message += "&errorLastName";
+				}
+			}
+		}
+
 		// role
 		if (ppForm.isChangingRole()) {
 			Collection<Role> roles = now.getRoles();
@@ -92,8 +130,6 @@ public class ProfileController {
 			userService.save(now);
 			return "redirect:/logout";
 		}
-		// first name & last name
-
 		return "redirect:/profile/?" + message;
 	}
 }

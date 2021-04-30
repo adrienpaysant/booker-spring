@@ -66,12 +66,17 @@
 							autofocus="autofocus" />
 					</div>
 					<h3>Edit LastName & FirstName</h3>
-					<div th:if="${param.successName}">
-						<div class="alert alert-info">Lastname & Firstname Updated !</div>
+					<div th:if="${param.successLastName}">
+						<div class="alert alert-info">Lastname Updated !</div>
 					</div>
-					<div th:if="${param.errorName}">
-						<div class="alert alert-warning">Lastname & Firstname
-							Updated Failed !</div>
+					<div th:if="${param.errorLastName}">
+						<div class="alert alert-warning">Lastname Updated Failed !</div>
+					</div>
+					<div th:if="${param.successFirstName}">
+						<div class="alert alert-info">Firstname Updated !</div>
+					</div>
+					<div th:if="${param.errorFirstName}">
+						<div class="alert alert-warning">Firstname Updated Failed !</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label"> Change lastname </label> <input
