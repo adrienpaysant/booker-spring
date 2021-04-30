@@ -25,10 +25,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ch.hearc.qdljee.dto.BookDto;
+import ch.hearc.qdljee.dto.SearchDto;
 import ch.hearc.qdljee.model.Books;
 import ch.hearc.qdljee.model.User;
 import ch.hearc.qdljee.service.BookService;
@@ -54,23 +54,41 @@ public class BooksController {
 
 	@GetMapping
 	public String listBooks(Model model, @RequestParam("page") Optional<Integer> page,
-			@RequestParam("size") Optional<Integer> size) {
+			@RequestParam("size") Optional<Integer> size, @RequestParam(required = false) String valueSearch,
+			@RequestParam(required = false) String criterSearch) {
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(10);
 		if (pageSize > 10) {
 			pageSize = 10;
 		}
 
+		System.out.println("value : " + valueSearch);
+		System.out.println("Criter : " + criterSearch);
+
 		Page<Books> bookPage = bookService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
 
 		model.addAttribute("bookPage", bookPage);
 
+		model.addAttribute("sForm", new SearchDto());
 		int totalPages = bookPage.getTotalPages();
 		if (totalPages > 0) {
 			List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
 			model.addAttribute("pageNumbers", pageNumbers);
 		}
 		return "Books";
+	}
+
+	@GetMapping("/search")
+	public String search(Model model, //
+			@ModelAttribute("sForm") SearchDto sFrom, @RequestParam(required = true) String searchValue,
+			@RequestParam(required = true) String searchCriter) {
+		System.out.println("_val : " + searchValue);
+		System.out.println("_crit:  : " + searchCriter);
+		if (searchCriter.equals("none")) {
+			return "redirect:/Books/?valueSearch=" + searchValue;
+		} else {
+			return "redirect:/Books/?valueSearch=" + searchValue + "&criterSearch=" + searchCriter;
+		}
 	}
 
 	@GetMapping("/{id}")
