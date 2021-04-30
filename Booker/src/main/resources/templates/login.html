@@ -32,7 +32,6 @@
 	<div class = "container">
 		<div class = "row">
 			<div class = "col-md-6 col-md-offset-3">
-				
 				<h1> User Login Page </h1>
 				<form th:action="@{/login}" method="post">
 					
@@ -44,19 +43,19 @@
 				
 					<!-- logout message -->
 					<div th:if="${param.logout}">
-						<div class="alert alert-info">You have been logged out.</div>
+						<div class="alert alert-info">You have been logged out... Your permissions may have changed !</div>
 					</div>
 					
 					<div class = "form-group">
 						<label for ="username"> Email </label> :
 						<input type="text" class = "form-control" id ="username" name = "username"
-						placeholder="Enter Email ID" autofocus="autofocus">
+						placeholder="Enter Email ID" autofocus="autofocus" required=>
 					</div>
 					
 					<div class="form-group">
 						<label for="password">Password</label>: <input type="password"
 							id="password" name="password" class="form-control"
-							placeholder="Enter Password" />
+							placeholder="Enter Password" required/>
 					</div>
 					
 					<div class="form-group">

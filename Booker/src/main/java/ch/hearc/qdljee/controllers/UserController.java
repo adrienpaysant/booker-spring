@@ -35,7 +35,9 @@ public class UserController {
 	public String registerUserAccount(@ModelAttribute("user") UserDto registrationDto) {
 		if (registrationDto.getFirstName().length() >= 3 && registrationDto.getLastName().length() >= 3
 				&& Tools.isValidEmail(registrationDto.getEmail())
-				&& userService.existsByEmail(registrationDto.getEmail())) {
+				&& userService.existsByEmail(registrationDto.getEmail()) && !registrationDto.getFirstName().isBlank() &&  !registrationDto.getLastName().isBlank() 
+				&& !registrationDto.getFirstName().isEmpty() && !registrationDto.getLastName().isEmpty() &&  !registrationDto.getPassword().isBlank() 
+				&& !registrationDto.getPassword().isEmpty()) {
 			userService.save(registrationDto);
 			return "redirect:/register?success";
 		} else {

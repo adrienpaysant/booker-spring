@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="ISO-8859-1">
+<title>Booker</title>
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+
+</head>
+<body>
+	<!-- create navigation bar ( header) -->
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#" th:href="@{/}">Home</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li sec:authorize="isAuthenticated()"><a th:href="@{/books}">All
+							Books</a></li>
+					<li sec:authorize="hasRole('ROLE_AUTHOR')"><a
+						th:href="@{/mybooks}">My Books</a></li>
+					<li sec:authorize="isAuthenticated()"><a th:href="@{/profile}">Profile</a></li>
+					<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<br>
+	<br>
+
+	<div class="container">
+		<h1>Profile Page</h1>
+		<div>
+			<form th:action="@{/profile/update}" method="post"
+				th:object="${pForm}">
+				<h3>Edit password</h3>
+				<div class="form-group">
+					<div th:if="${param.successPassword}">
+						<div class="alert alert-info">Password Updated !</div>
+					</div>
+					<div th:if="${param.errorPassword}">
+						<div class="alert alert-warning">Password Updated Failed !</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="password">New Password </label>
+						<input id="newPassword" class="form-control" type="password"
+							th:field="*{newPassword}" autofocus="autofocus" />
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="password">Confirm
+							Password </label> <input id="confirmPassword" class="form-control"
+							type="password" th:field="*{confirmPassword}"
+							autofocus="autofocus" />
+					</div>
+					<h3>Edit email</h3>
+					<div th:if="${param.successEmail}">
+						<div class="alert alert-info">Email Updated !</div>
+					</div>
+					<div th:if="${param.errorEmail}">
+						<div class="alert alert-warning">Email Updated Failed !</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="email"> Change email </label> <span><br>
+							Current Email : <input id="emailUser" class="form-control"
+							th:value="${user.email}" type="email" disabled /> </span> <input
+							id="email" class="form-control" th:field="*{email}"
+							autofocus="autofocus" type="email" />
+					</div>
+
+					<h3>Edit role</h3>
+					<div sec:authorize="hasRole('ROLE_READER')">
+						<div class="form-group">
+							<label class="control-label"> Check to become author ! :
+							</label> <input type="checkbox" name="changingRole"
+								th:checked="*{changingRole}" />
+						</div>
+
+					</div>
+
+					<div sec:authorize="hasRole('ROLE_AUTHOR')">
+						<div class="form-group">
+							<label class="control-label"> Check to lose author
+								privileges </label> <input type="checkbox" name="changingRole"
+								th:checked="*{changingRole}" />
+						</div>
+
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-success">Save
+							Profile</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!-- 	
+	Only for tips
+	<div sec:authorize="hasRole('ROLE_READER')">This content is only
+			shown to readers.
+		</div>
+		<div sec:authorize="hasRole('ROLE_AUTHOR')">This content is only
+			shown to authors.
+		</div>
+		<div sec:authorize="hasRole('ROLE_ADMIN')">This content is only
+			shown to administrators.
+		</div> -->
+	</div>
+</body>
+</html>
