@@ -61,16 +61,25 @@ public class BooksController {
 		if (pageSize > 10) {
 			pageSize = 10;
 		}
-
-		Page<Books> bookPage = bookService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
-
-		model.addAttribute("bookPage", bookPage);
-
-		model.addAttribute("sForm", new SearchDto());
-		int totalPages = bookPage.getTotalPages();
-		if (totalPages > 0) {
-			List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
-			model.addAttribute("pageNumbers", pageNumbers);
+		if (valueSearch == null && criterSearch == null) {
+			Page<Books> bookPage = bookService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
+			model.addAttribute("bookPage", bookPage);
+			model.addAttribute("sForm", new SearchDto());
+			int totalPages = bookPage.getTotalPages();
+			if (totalPages > 0) {
+				List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+				model.addAttribute("pageNumbers", pageNumbers);
+			}
+		} else {
+			Page<Books> bookPage = bookService.findPaginated(PageRequest.of(currentPage - 1, pageSize), valueSearch,
+					criterSearch);
+			model.addAttribute("bookPage", bookPage);
+			model.addAttribute("sForm", new SearchDto());
+			int totalPages = bookPage.getTotalPages();
+			if (totalPages > 0) {
+				List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+				model.addAttribute("pageNumbers", pageNumbers);
+			}
 		}
 		return "Books";
 	}
@@ -79,11 +88,7 @@ public class BooksController {
 	public String search(Model model, //
 			@ModelAttribute("sForm") SearchDto sFrom, @RequestParam(required = true) String searchValue,
 			@RequestParam(required = true) String searchCriter) {
-		if (searchCriter.equals("none")) {
-			return "redirect:/Books/?valueSearch=" + searchValue;
-		} else {
-			return "redirect:/Books/?valueSearch=" + searchValue + "&criterSearch=" + searchCriter;
-		}
+		return "redirect:/Books/?valueSearch=" + searchValue + "&criterSearch=" + searchCriter;
 	}
 
 	@GetMapping("/{id}")

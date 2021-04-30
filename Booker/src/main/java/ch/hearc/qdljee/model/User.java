@@ -30,7 +30,7 @@ public class User {
 	@Size(min = 3)
 	@Column(name = "first_name")
 	private String firstName;
-	
+
 	@NotEmpty
 	@Size(min = 3)
 	@Column(name = "last_name")
@@ -110,5 +110,4 @@ public class User {
 	public void setRoles(Collection<Role> roles) {
 		this.roles = roles;
 	}
-
 }
