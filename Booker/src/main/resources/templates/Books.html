@@ -35,16 +35,32 @@
 			</div>
 		</div>
 	</nav>
-	<br/>
-	<br/>
+	<br />
+	<br />
 	<div class="container">
 		<h1>Books</h1>
-		<th:block th:each="book : ${books}" class="d-flex flex-wrap" style="text-align:center;">
-		<a th:href="@{/Books/{id}(id=${book.id})}">
-			<!-- <img th:src="${~/{url}(url=${book.image})}" /><br> -->
-			<span th:utext="${book.title}"></span>
-		</a>
-		</th:block>
+		<!-- PAGINATION BEGIN -->
+		<table border="1">
+			<tbody>
+				<tr th:each="book, iStat : ${bookPage.content}"
+					th:style="${iStat.odd}? 'font-weight: bold;'"
+					th:alt-title="${iStat.even}? 'even' : 'odd'">
+					<td><a th:href="@{/Books/{id}(id=${book.id})}"> <!--   <img
+							th:src="${~/{url}(url=${book.image})}" />
+							--> <br> <span th:utext="${book.title}"></span>
+					</a></td>
+				</tr>
+			</tbody>
+		</table>
+		<div th:if="${bookPage.totalPages > 0}" class="pagination"
+			th:each="pageNumber : ${pageNumbers}">
+			<a th:href="@{/Books(size=${bookPage.size}, page=${pageNumber})}"
+				th:text=${pageNumber}
+				th:class="${pageNumber==bookPage.number + 1} ? active"></a>
+		</div>
+
+		<!-- PAGINATION END -->
+
 	</div>
 </body>
 </html>
