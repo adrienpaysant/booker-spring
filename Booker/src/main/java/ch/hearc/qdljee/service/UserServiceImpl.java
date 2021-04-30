@@ -29,7 +29,6 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User save(UserDto registrationDto) {
-		System.out.println(registrationDto);
 		String role;
 		if (registrationDto.getAuthor()) {
 			role = "ROLE_AUTHOR";
@@ -74,7 +73,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void deleteById(Long id) {
 		userRepository.deleteById(id);
-
 	}
 
 	@Override

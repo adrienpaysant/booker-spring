@@ -39,12 +39,12 @@
 	<br/>
 	<div class="container">
 		<h1>Books</h1>
-		<th:block th:each="book : ${books}" class="d-flex flex-wrap" style="text-align:center;">
-		<a th:href="@{/Books/{id}(id=${book.id})}">
-			<img th:src="@{/images/{url}(url=${book.image})}" /><br>
-			<span th:utext="${book.title}"></span>
+		<div th:each="book : ${books}" class="d-flex flex-wrap" style="text-align:center;">
+		<a th:href="@{/Books/{id}(id=${book.id})}" class="m-2">
+			<img th:src="@{/images/{url}(url=${book.image})}" style="max-width:10vw"/>
+			<p th:text="${book.title}"></p>
 		</a>
-		</th:block>
+		</div>
 	</div>
 </body>
 </html>

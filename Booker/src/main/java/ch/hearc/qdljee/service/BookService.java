@@ -31,7 +31,6 @@ public class BookService {
 				author, bookDto.getReleaseDate());
 		bookRepository.save(book);
 	}
-
 	public void delete(int id) {
 		bookRepository.deleteById(id);
 	}
