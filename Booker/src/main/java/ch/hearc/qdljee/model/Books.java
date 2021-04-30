@@ -65,60 +65,68 @@ public class Books {
 		this.author = author;
 		this.releaseDate = releaseDate;
 	}
-
-	public final Integer getId() {
+	
+	public void addAttributes(String title, String description, String edition, String image, User author, Date releaseDate) {
+		this.title = title;
+		this.description = description;
+		this.edition = edition;
+		if(image !=null)this.image = image;
+		this.author = author;
+		this.releaseDate = releaseDate;
+	}
+	public Integer getId() {
 		return id;
 	}
 
-	public final void setId(Integer id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public final String getTitle() {
+	public String getTitle() {
 		return title;
 	}
 
-	public final void setTitle(String title) {
+	public void setTitle(String title) {
 		this.title = title;
 	}
 
-	public final String getEdition() {
+	public String getEdition() {
 		return edition;
 	}
 
-	public final void setEdition(String edition) {
+	public void setEdition(String edition) {
 		this.edition = edition;
 	}
 
-	public final String getImage() {
+	public String getImage() {
 		return image;
 	}
 
-	public final void setImage(String image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 
-	public final String getDescription() {
+	public String getDescription() {
 		return description;
 	}
 
-	public final void setDescription(String description) {
+	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	public final User getAuthor() {
+	public User getAuthor() {
 		return author;
 	}
 
-	public final void setAuthor(User author) {
+	public void setAuthor(User author) {
 		this.author = author;
 	}
 
-	public final Date getReleaseDate() {
+	public Date getReleaseDate() {
 		return releaseDate;
 	}
 
-	public final void setReleaseDate(Date releaseDate) {
+	public void setReleaseDate(Date releaseDate) {
 		this.releaseDate = releaseDate;
 	}
 }

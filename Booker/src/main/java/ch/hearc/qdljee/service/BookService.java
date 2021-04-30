@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -112,10 +113,17 @@ public class BookService {
 		return bookRepository.findById(id).get();
 	}
 
-	public void saveOrUpdate(BookDto bookDto, String imageURL, User author) {
+	public void save(BookDto bookDto, String imageURL, User author) {
 		Books book = new Books(bookDto.getTitle(), bookDto.getDescription(), bookDto.getEdition(), imageURL, author,
 				bookDto.getReleaseDate());
 		bookRepository.save(book);
+	}
+	public void update(BookDto bookDto, String imageURL, User author,int id) throws Exception {
+		Optional<Books> book = bookRepository.findById(id);
+		if(book.isEmpty())throw new Exception("no book to update");
+		book.get().addAttributes(bookDto.getTitle(), bookDto.getDescription(), bookDto.getEdition(), imageURL, author,
+				bookDto.getReleaseDate());
+		bookRepository.save(book.get());
 	}
 
 	public void delete(int id) {
