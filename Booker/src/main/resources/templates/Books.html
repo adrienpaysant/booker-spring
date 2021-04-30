@@ -64,17 +64,6 @@
 				</div>
 			</form>
 		</div>
-		<table border="1">
-			<tbody>
-				<tr th:each="book, iStat : ${bookPage.content}"
-					th:style="${iStat.odd}? 'font-weight: bold;'"
-					th:alt-title="${iStat.even}? 'even' : 'odd'">
-					<td><a th:href="@{/Books/{id}(id=${book.id})}"> <!--   <img
-							th:src="${~/{url}(url=${book.image})}" />
-							--> <br> <span th:utext="${book.title}"></span>
-					</a></td>
-				</tr>
-			</tbody>
 		<table>
 			<th:block th:each="book, iStat : ${bookPage.content}"
 				th:style="${iStat.odd}? 'font-weight: bold;'"
