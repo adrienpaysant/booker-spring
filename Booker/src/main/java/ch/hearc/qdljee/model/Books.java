@@ -65,7 +65,15 @@ public class Books {
 		this.author = author;
 		this.releaseDate = releaseDate;
 	}
-
+	
+	public void addAttributes(String title, String description, String edition, String image, User author, Date releaseDate) {
+		this.title = title;
+		this.description = description;
+		this.edition = edition;
+		if(image !=null)this.image = image;
+		this.author = author;
+		this.releaseDate = releaseDate;
+	}
 	public Integer getId() {
 		return id;
 	}
