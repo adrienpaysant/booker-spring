@@ -1,4 +1,4 @@
-package ch.hearc.qdljee.web.dot;
+package ch.hearc.qdljee.dto;
 
 public class ProfilePageForm {
 

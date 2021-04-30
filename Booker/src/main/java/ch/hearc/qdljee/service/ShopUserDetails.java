@@ -26,13 +26,15 @@ public class ShopUserDetails implements UserDetails {
 	public User getUser() {
 		return user;
 	}
-	
-	
 	@Override
 	public String getPassword() {
 		return user.getPassword();
 	}
 
+	public String getFullName() {
+		return user.getFirstName() + " " + user.getLastName();
+	}
+	
 	@Override
 	public String getUsername() {
 		return user.getEmail();
@@ -57,6 +59,7 @@ public class ShopUserDetails implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -69,6 +72,5 @@ public class ShopUserDetails implements UserDetails {
 		builder.append("]");
 		return builder.toString();
 	}
-
 
 }

@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import ch.hearc.qdljee.dto.ProfilePageForm;
 import ch.hearc.qdljee.model.Role;
 import ch.hearc.qdljee.model.User;
 import ch.hearc.qdljee.service.UserService;
-import ch.hearc.qdljee.web.dot.ProfilePageForm;
 
 @SpringBootTest
 public class BookerUserTests {

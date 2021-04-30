@@ -71,6 +71,10 @@ public class User {
 		return firstName;
 	}
 
+	public String getFullName() {
+		return this.firstName + " " + this.lastName;
+	}
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
@@ -106,5 +110,4 @@ public class User {
 	public void setRoles(Collection<Role> roles) {
 		this.roles = roles;
 	}
-
 }
