@@ -46,35 +46,30 @@ public class BooksController {
 	@Autowired
 	private Environment environment;
 
+//	@GetMapping
+//	public String index(Model model) {
+//		model.addAttribute("books", bookService.getAllBooks());
+//		return "Books";
+//	}
+
 	@GetMapping
-	public String index(Model model) {
-		model.addAttribute("books", bookService.getAllBooks());
+	public String listBooks(Model model, @RequestParam("page") Optional<Integer> page,
+			@RequestParam("size") Optional<Integer> size) {
+		int currentPage = page.orElse(1);
+		int pageSize = size.orElse(5);
+
+		Page<Books> bookPage = bookService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
+
+		model.addAttribute("bookPage", bookPage);
+
+		int totalPages = bookPage.getTotalPages();
+		if (totalPages > 0) {
+			List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+			model.addAttribute("pageNumbers", pageNumbers);
+		}
 		return "Books";
 	}
 
-	@RequestMapping(value = "/listBooks", method = RequestMethod.GET)
-    public String listBooks(
-      Model model, 
-      @RequestParam("page") Optional<Integer> page, 
-      @RequestParam("size") Optional<Integer> size) {
-        int currentPage = page.orElse(1);
-        int pageSize = size.orElse(5);
-
-        Page<Books> bookPage = bookService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
-        
-        model.addAttribute("bookPage", bookPage);
-
-        int totalPages = bookPage.getTotalPages();
-        if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                .boxed()
-                .collect(Collectors.toList());
-            model.addAttribute("pageNumbers", pageNumbers);
-        }
-
-        return "Books";
-    }
-	
 	@GetMapping("/{id}")
 	public String details(Model model, @PathVariable("id") int id) {
 		model.addAttribute("book", bookService.getBooksById(id));
