@@ -63,7 +63,7 @@
 				</div>
 				<div class="form-group">
 					<label for="image">Edit the cover image :</label>
-					<img src="${book.image}" class="img-fluid mb-3" style="width: 20%" /><input
+					<img th:src="@{/images/{url}(url=${book.image})}" class="m-3" style="max-width:5vw;max-height:30vh;margin-bottom:3vh"/><input
 						 type="file" accept="image/*" name="image"
 						class="form-control" th:value="${book.image}" />
 				</div>

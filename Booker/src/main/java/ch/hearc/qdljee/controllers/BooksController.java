@@ -105,7 +105,7 @@ public class BooksController {
 		}
 		User author = ((ShopUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
 				.getUser();
-		bookService.saveOrUpdate(bookDto, path + imageURL, author);
+		bookService.save(bookDto, imageURL, author);
 		return "redirect:/Books";
 	}
 
@@ -124,11 +124,32 @@ public class BooksController {
 
 	@PostMapping("/{id}/update")
 	public String updateBook(Model model, @PathVariable("id") int id, @ModelAttribute("Bookdto") BookDto bookDto) {
-		String imageURL = "/static/images/" + bookDto.getTitle() + bookDto.getEdition() + "."
-				+ bookDto.getImage().getContentType().substring(6);
+		String imageURL = null;
+		if(bookDto.getImage()!=null) {
+			String path = environment.getProperty("images.path");
+			imageURL = bookDto.getTitle() + bookDto.getEdition() + "."
+					+ bookDto.getImage().getContentType().substring(6);
+			File image = new File(path + imageURL).getAbsoluteFile();
+			try {
+				InputStream is = bookDto.getImage().getInputStream();
+				OutputStream out = new FileOutputStream(image);
+				byte buf[] = new byte[1024];
+				int len;
+				while ((len = is.read(buf)) > 0)
+					out.write(buf, 0, len);
+				is.close();
+				out.close();
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
 		User author = ((ShopUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
 				.getUser();
-		bookService.saveOrUpdate(bookDto, imageURL, author);
+		try {
+			bookService.update(bookDto, imageURL, author,id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return "redirect:/Books/" + id;
 	}
 }
