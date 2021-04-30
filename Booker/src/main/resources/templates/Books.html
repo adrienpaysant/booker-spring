@@ -35,16 +35,34 @@
 			</div>
 		</div>
 	</nav>
-	<br/>
-	<br/>
+	<br />
+	<br />
 	<div class="container">
 		<h1>Books</h1>
-		<div th:each="book : ${books}" class="d-flex flex-wrap" style="text-align:center;">
-		<a th:href="@{/Books/{id}(id=${book.id})}" class="m-2">
-			<img th:src="@{/images/{url}(url=${book.image})}" style="max-width:10vw"/>
-			<p th:text="${book.title}"></p>
-		</a>
+		<!-- PAGINATION BEGIN -->
+		<table>
+			<th:block th:each="book, iStat : ${bookPage.content}"
+				th:style="${iStat.odd}? 'font-weight: bold;'"
+				th:alt-title="${iStat.even}? 'even' : 'odd'"
+				style="display: flex; flex-wrap: wrap"><a
+				th:href="@{/Books/{id}(id=${book.id})}"
+				style="text-align: justify; margin-left: 2vw;display:inline-flex"> 
+				<div><img
+					th:src="@{/images/{url}(url=${book.image})}"
+					style="max-width: 10vw; max-height: 25vh" />
+					<p th:text="${book.title}"
+						style="margin-top: 1vh;max-width: 10vw;word-wrap:break-word"></p>
+						</div>
+			</a></th:block>
+		</table>
+		<div th:if="${bookPage.totalPages > 0}" class="pagination"
+			th:each="pageNumber : ${pageNumbers}">
+			<a th:href="@{/Books(size=${bookPage.size}, page=${pageNumber})}"
+				th:text=${pageNumber}
+				th:class="${pageNumber==bookPage.number + 1} ? active"></a>
 		</div>
+
+		<!-- PAGINATION END -->
 	</div>
 </body>
 </html>
