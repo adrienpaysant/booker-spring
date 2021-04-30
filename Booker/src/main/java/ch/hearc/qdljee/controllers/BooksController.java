@@ -106,7 +106,7 @@ public class BooksController {
 	@GetMapping("/create")
 	public String getCreatePage(Model model) {
 		model.addAttribute("addBookForm", new BookDto());
-		return "CreateBookPage";
+		return "createBookPage";
 	}
 
 	@PostMapping("/create")
