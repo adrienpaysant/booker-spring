@@ -34,6 +34,10 @@ public class ProfileController {
 	public String profile(Model model) {
 		User now = Tools.getCurrentUser();
 		model.addAttribute("user", now);// to display user infos
+		System.out.println("last:  " + now.getLastName());
+		System.out.println("first : " + now.getFirstName());
+		model.addAttribute("lastNameDisp", now.getLastName());
+		model.addAttribute("firstNameDisp", now.getFirstName());
 		ProfilePageForm ppForm = new ProfilePageForm();
 		model.addAttribute("pForm", ppForm);
 		return "profile";
@@ -88,6 +92,8 @@ public class ProfileController {
 			userService.save(now);
 			return "redirect:/logout";
 		}
+		// first name & last name
+
 		return "redirect:/profile/?" + message;
 	}
 }
