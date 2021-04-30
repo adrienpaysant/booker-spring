@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import ch.hearc.qdljee.Tools;
 import ch.hearc.qdljee.dto.BookDto;
 import ch.hearc.qdljee.model.Books;
 import ch.hearc.qdljee.model.User;
@@ -57,6 +58,9 @@ public class BookService {
 				for (Books tempBook : tempBooks) {
 					if (tempBook.getAuthor().getFirstName().toLowerCase().contains(valueSearch.toLowerCase())
 							|| tempBook.getAuthor().getLastName().toLowerCase().contains(valueSearch.toLowerCase())) {
+						books.add(tempBook);
+					}
+					if (tempBook.getAuthor().getFullName().contentEquals(Tools.getCurrentUser().getFullName())) {
 						books.add(tempBook);
 					}
 				}
@@ -118,9 +122,11 @@ public class BookService {
 				bookDto.getReleaseDate());
 		bookRepository.save(book);
 	}
-	public void update(BookDto bookDto, String imageURL, User author,int id) throws Exception {
+
+	public void update(BookDto bookDto, String imageURL, User author, int id) throws Exception {
 		Optional<Books> book = bookRepository.findById(id);
-		if(book.isEmpty())throw new Exception("no book to update");
+		if (book.isEmpty())
+			throw new Exception("no book to update");
 		book.get().addAttributes(bookDto.getTitle(), bookDto.getDescription(), bookDto.getEdition(), imageURL, author,
 				bookDto.getReleaseDate());
 		bookRepository.save(book.get());
