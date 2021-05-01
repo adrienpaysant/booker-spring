@@ -149,7 +149,7 @@ public class BooksController {
 	@PostMapping("/{id}/update")
 	public String updateBook(Model model, @PathVariable("id") int id, @ModelAttribute("Bookdto") BookDto bookDto) {
 		String imageURL = null;
-		if (bookDto.getImage() != null) {
+		if (bookDto.getImage() != null && bookDto.getImage().getOriginalFilename().contains("octet-stream")) {
 			String path = environment.getProperty("images.path");
 			imageURL = bookDto.getTitle() + bookDto.getEdition() + "."
 					+ bookDto.getImage().getContentType().substring(6);

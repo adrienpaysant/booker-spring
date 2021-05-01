@@ -124,7 +124,7 @@ public class BookService {
 		Optional<Books> book = bookRepository.findById(id);
 		if (book.isEmpty())
 			throw new Exception("no book to update");
-		book.get().addAttributes(bookDto.getTitle(), bookDto.getDescription(), bookDto.getEdition(), imageURL, author,
+		book.get().addAttributes(bookDto.getTitle(), bookDto.getDescription(), bookDto.getEdition(), imageURL!=null?imageURL:book.get().getImage(), author,
 				bookDto.getReleaseDate());
 		bookRepository.save(book.get());
 	}

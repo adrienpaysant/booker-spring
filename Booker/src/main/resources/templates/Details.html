@@ -12,7 +12,7 @@
 <link th:rel="stylesheet"
 	th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " />
 </head>
-<body>
+<body class="mb-3">
 	<div th:replace="navigationBar :: nav"></div>
 	<div class="container">
 		<h1 th:utext=${book.title}></h1>
@@ -34,5 +34,8 @@
 			<a th:href="@{/Books/{id}/update(id=${book.id})}" class="btn btn-primary">Update this book</a>
 	</div>
 </body>
-<div th:replace="footer :: footer"></div>
+<br>
+<br>
+<br>
+<div th:replace="footer :: footer" class="mt-2"></div>
 </html>
