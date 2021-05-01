@@ -31,6 +31,16 @@ public class Comments {
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date publicationDate;
 
+	private String data;
+
+	public String getData() {
+		return data;
+	}
+
+	public void setData(String data) {
+		this.data = data;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -63,4 +73,20 @@ public class Comments {
 		this.publicationDate = publicationDate;
 	}
 
+	public Comments() {
+
+	}
+
+	public Comments(String data, User author, Date pubDate, Integer bId) {
+		this.author = author;
+		this.data = data;
+		this.publicationDate = pubDate;
+		this.bookId = bId;
+	}
+
+	public void addAttributes(String data, User author, Date pubDate) {
+		this.author = author;
+		this.data = data;
+		this.publicationDate = pubDate;
+	}
 }
