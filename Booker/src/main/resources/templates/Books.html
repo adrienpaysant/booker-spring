@@ -11,7 +11,7 @@
 <body>
 	<div th:replace="navigationBar :: nav"></div>
 	<div class="container">
-		<h1>Books</h1>
+		<h1 class="my-3">Books</h1>
 		<!-- PAGINATION BEGIN -->
 		<div id="searchBar" class="mb-0">
 			<form th:action="@{/Books/search}" method="get" th:object="${sForm}">

@@ -22,12 +22,14 @@ public class Comments {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
 	@NotNull
 	@ManyToOne(cascade = { CascadeType.REFRESH, CascadeType.MERGE }, fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User author;
 
 	private Integer bookId;
+	
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date publicationDate;
 

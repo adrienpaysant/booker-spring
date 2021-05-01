@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,11 +31,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ch.hearc.qdljee.Tools;
 import ch.hearc.qdljee.dto.BookDto;
 import ch.hearc.qdljee.dto.CommentDto;
+import ch.hearc.qdljee.dto.RatingsDto;
 import ch.hearc.qdljee.dto.SearchDto;
 import ch.hearc.qdljee.model.Books;
 import ch.hearc.qdljee.model.User;
 import ch.hearc.qdljee.service.BookService;
 import ch.hearc.qdljee.service.CommentService;
+import ch.hearc.qdljee.service.RatingsService;
 import ch.hearc.qdljee.service.ShopUserDetails;
 
 @Controller
@@ -46,6 +49,9 @@ public class BooksController {
 	BookService bookService;
 	@Autowired
 	CommentService commentService;
+	@Autowired
+	RatingsService ratingsService;
+	
 	@Autowired
 	private HttpServletRequest request;
 	@Autowired
@@ -107,9 +113,17 @@ public class BooksController {
 		model.addAttribute("comForm", new CommentDto());
 		model.addAttribute("userId", Tools.getCurrentUser().getId());
 		model.addAttribute("comments", commentService.getAllCommentsForABook(id));
+		model.addAttribute("ratingGlobalValue",ratingsService.getRatingsGlobalValue(id));
+		model.addAttribute("ratingUserValue",ratingsService.getRatingsUserValue(id, Tools.getCurrentUser().getId()));
 		return "Details";
 	}
 
+	@PostMapping("/{id}/rate")
+	public String rate(Model model, @ModelAttribute("ratingsDto") RatingsDto ratingsDto, @PathVariable("id") int id) {
+		ratingsService.saveOrUpdate(ratingsDto,id,Tools.getCurrentUser().getId());
+		return "redirect:/Books/"+id;
+	}
+	
 	@GetMapping("/create")
 	public String getCreatePage(Model model) {
 		model.addAttribute("addBookForm", new BookDto());
