@@ -2,9 +2,10 @@ package ch.hearc.qdljee.dto;
 
 public class RatingsDto {
 	private Integer value;
-	
-	public RatingsDto() {}
-	
+
+	public RatingsDto() {
+	}
+
 	public RatingsDto(Integer value) {
 		this.value = value;
 	}
