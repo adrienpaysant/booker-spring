@@ -34,6 +34,38 @@ public class Ratings {
 
 	}
 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getValue() {
+		return value;
+	}
+
+	public void setValue(Integer value) {
+		this.value = value;
+	}
+
+	public User getRater() {
+		return rater;
+	}
+
+	public void setRater(User rater) {
+		this.rater = rater;
+	}
+
+	public Books getBook() {
+		return book;
+	}
+
+	public void setBook(Books book) {
+		this.book = book;
+	}
+
 	public Ratings(Integer value, User rater, Books book) {
 		super();
 		this.value = value;
