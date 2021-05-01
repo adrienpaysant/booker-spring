@@ -11,7 +11,8 @@
 <body>
 	<div th:replace="navigationBar :: nav"></div>
 	<div class="container" style="max-width:50vw">
-		<h2 style="margin-left: 40vw">Add a book :</h2>
+		<h1 class="my-2">Add a book :</h1>
+		<hr>
 		<form method="POST" th:action="@{/Books/create}"
 			th:object="${bookDto}" encType="multipart/form-data">
 			<div class="form-group">
