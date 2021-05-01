@@ -52,15 +52,15 @@
 
 							<form
 								th:action="@{/Books/{id}/comment/{comId}/update(id=${book.id},comId=${com.id})}"
-								method="post" th:object="${comForm}">
-								<textarea name="data" class="form-control w-50"
+								method="post" th:object="${comForm}" class="card-footer">
+								<textarea name="data" class="form-control card-body"
 									th:utext="${com.data}"></textarea>
 								<button type="submit" class="btn btn-success m-1">Update</button>
 							</form>
 
 							<form
 								th:action="@{/Books/{id}/comment/{comId}/delete(id=${book.id},comId=${com.id})}"
-								method="post">
+								method="post" class="card-footer">
 								<button type="submit" class="btn btn-danger m-1 ">Delete</button></form>
 						</i> <i th:case="false" class="fas fa-times red-text"><div class="card-body"
 							th:utext="${com.data}" ></div>
