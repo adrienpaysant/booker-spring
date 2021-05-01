@@ -107,6 +107,7 @@ public class BooksController {
 	public String details(Model model, @PathVariable("id") int id) {
 		model.addAttribute("book", bookService.getBooksById(id));
 		model.addAttribute("comForm", new CommentDto());
+		model.addAttribute("userId", Tools.getCurrentUser().getId());
 		model.addAttribute("comments", commentService.getAllCommentsForABook(id));
 		return "Details";
 	}
@@ -194,14 +195,12 @@ public class BooksController {
 		return "redirect:/Books/" + id;
 	}
 
-	@PostMapping("/{id}/comment/{comId}")
+	@PostMapping("/{id}/comment/{comId}/update")
 	public String updateComment(Model model, @PathVariable("id") int id, @PathVariable("comId") int comId,
-			@ModelAttribute("CommentDto") CommentDto comDto) {
-		Comments com = commentService.getCommentsById(comId);
-		com.setData(comDto.getData());
+			@ModelAttribute("CommentDto") CommentDto comDto) throws Exception {
 		comDto.setPublicationDate(new Date(System.currentTimeMillis()));
-		comDto.setBookId(comId);
-		commentService.save(comDto);
+		comDto.setBookId(id);
+		commentService.update(comDto,comId,comDto.getData());
 		return "redirect:/Books/" + id;
 	}
 
