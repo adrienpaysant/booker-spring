@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ch.hearc.qdljee.Tools;
 import ch.hearc.qdljee.dto.BookDto;
 import ch.hearc.qdljee.dto.SearchDto;
 import ch.hearc.qdljee.model.Books;
@@ -51,6 +52,11 @@ public class BooksController {
 //		model.addAttribute("books", bookService.getAllBooks());
 //		return "Books";
 //	}
+
+	@GetMapping("/mybooks")
+	public String myBooks() {
+		return "redirect:/Books/?valueSearch="+Tools.getCurrentUser().getFullName()+"&criterSearch=author";
+	}
 
 	@GetMapping
 	public String listBooks(Model model, @RequestParam("page") Optional<Integer> page,
@@ -100,7 +106,7 @@ public class BooksController {
 	@GetMapping("/create")
 	public String getCreatePage(Model model) {
 		model.addAttribute("addBookForm", new BookDto());
-		return "CreateBookPage";
+		return "createBookPage";
 	}
 
 	@PostMapping("/create")
@@ -143,7 +149,7 @@ public class BooksController {
 	@PostMapping("/{id}/update")
 	public String updateBook(Model model, @PathVariable("id") int id, @ModelAttribute("Bookdto") BookDto bookDto) {
 		String imageURL = null;
-		if(bookDto.getImage()!=null) {
+		if (bookDto.getImage() != null) {
 			String path = environment.getProperty("images.path");
 			imageURL = bookDto.getTitle() + bookDto.getEdition() + "."
 					+ bookDto.getImage().getContentType().substring(6);
@@ -164,7 +170,7 @@ public class BooksController {
 		User author = ((ShopUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
 				.getUser();
 		try {
-			bookService.update(bookDto, imageURL, author,id);
+			bookService.update(bookDto, imageURL, author, id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
