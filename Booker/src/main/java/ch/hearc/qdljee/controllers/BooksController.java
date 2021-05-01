@@ -189,9 +189,11 @@ public class BooksController {
 	@PostMapping("/{id}/createComment")
 	public String createComment(Model model, @ModelAttribute("CommentDto") CommentDto comDto,
 			@PathVariable("id") int id) {
-		comDto.setPublicationDate(new Date(System.currentTimeMillis()));
-		comDto.setBookId(id);
-		commentService.save(comDto);
+		if (!(comDto.getData().isBlank() || comDto.getData().isEmpty())) {
+			comDto.setPublicationDate(new Date(System.currentTimeMillis()));
+			comDto.setBookId(id);
+			commentService.save(comDto);
+		}
 		return "redirect:/Books/" + id;
 	}
 

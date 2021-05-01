@@ -63,6 +63,13 @@
 		<a th:href="@{/Books/{id}/update(id=${book.id})}"
 			class="btn btn-primary">Update this book</a>
 	</div>
+<h3>Add a comment</h3>
+	<form th:action="@{/Books/{id}/createComment(id=${book.id})}"
+		method="post" th:object="${comForm}">
+		<textarea name="data" class="form-control"></textarea>
+		<button type="submit" class="btn btn-success">Add comment</button>
+	</form>
+	<h3>Comments</h3>
 	<div th:each="com : ${comments}">
 		<div class="container">
 			<div class="form-group">
@@ -74,7 +81,7 @@
 							th:action="@{/Books/{id}/comment/{comId}/update(id=${book.id},comId=${com.id})}"
 							method="post" th:object="${comForm}">
 							<textarea name="data" class="form-control" th:utext="${com.data}"></textarea>
-								<button type="submit" class="btn btn-success">Update</button>
+							<button type="submit" class="btn btn-success">Update</button>
 						</form>
 						<form
 							th:action="@{/Books/{id}/comment/{comId}/delete(id=${book.id},comId=${com.id})}"
