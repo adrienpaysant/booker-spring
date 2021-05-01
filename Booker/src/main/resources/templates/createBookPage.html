@@ -5,19 +5,24 @@
 <meta charset="ISO-8859-1">
 <title>Booker</title>
 
-<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " />
-<link href="/images/favicon.ico" rel="shortcut icon"/>
+<link th:rel="stylesheet"
+	th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " />
+
+<link href="/images/favicon.ico" rel="shortcut icon" />
+<script th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+
 </head>
 <body>
 	<div th:replace="navigationBar :: nav"></div>
-	<div class="container" style="max-width:50vw">
+	<div class="container" style="max-width: 50vw">
 		<h1 class="my-2">Add a book :</h1>
 		<hr>
 		<form method="POST" th:action="@{/Books/create}"
 			th:object="${bookDto}" encType="multipart/form-data">
 			<div class="form-group">
 				<label for="title">Title : </label> <input required type="text"
-					name="title" class="form-control" maxlength="50"/>
+					name="title" class="form-control" maxlength="50" />
 			</div>
 			<div class="form-group">
 
@@ -27,7 +32,7 @@
 			<div class="form-group">
 
 				<label for="edition">Edition :</label> <input required type="text"
-					name="edition" class="form-control" maxlength="50"/>
+					name="edition" class="form-control" maxlength="50" />
 			</div>
 			<div class="form-group">
 
@@ -38,9 +43,9 @@
 				<label for="image">Add the cover image :</label> <input required
 					type="file" accept="image/*" name="image" class="form-control" />
 			</div>
-			<div class="form-group" style="text-align:center">
-				<input type="reset" value="Reset" class="btn btn-primary"> 
-				<input type="submit" value="Add" class="btn btn-primary"/>
+			<div class="form-group" style="text-align: center">
+				<input type="reset" value="Reset" class="btn btn-primary"> <input
+					type="submit" value="Add" class="btn btn-primary" />
 			</div>
 		</form>
 	</div>
