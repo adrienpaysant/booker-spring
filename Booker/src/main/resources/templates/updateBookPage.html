@@ -16,34 +16,40 @@
 			<form method="POST" th:action="@{/Books/{id}/update(id=${book.id})}"
 				th:object="${bookDto}" encType="multipart/form-data">
 				<div class="form-group">
-					<label for="title">Edit Title : </label>
-					<input  type="text"
+					<label for="title">Edit Title : </label> <input type="text"
 						name="title" class="form-control" th:value="${book.title}" />
 				</div>
 				<div class="form-group">
-
-					<textarea  name="description" class="form-control" th:utext="${book.description}"></textarea>
+				<label for="description">Edit Description :</label> 
+					<textarea name="description" class="form-control"
+						th:utext="${book.description}"></textarea>
 				</div>
 				<div class="form-group">
 
-					<label for="edition">Edit Edition :</label>
-					 <input required type="text"
-						name="edition" class="form-control"  th:value="${book.edition}"/>
+					<label for="edition">Edit Edition :</label> <input required
+						type="text" name="edition" class="form-control"
+						th:value="${book.edition}" />
 				</div>
 				<div class="form-group">
-					<label for="releaseDate">Release Date : </label> <input 
-						type="date" name="releaseDate" class="form-control" th:value="${book.releaseDate}" />
+					<label for="releaseDate">Release Date : </label> <input type="date"
+						name="releaseDate" class="form-control"
+						th:value="${book.releaseDate}" />
 				</div>
 				<div class="form-group">
-					<label for="image">Edit the cover image :</label>
-					<img th:src="@{/images/{url}(url=${book.image})}" class="m-3" style="max-width:5vw;max-height:30vh;margin-bottom:3vh"/><input
-						 type="file" accept="image/*" name="image"
-						class="form-control" th:value="${book.image}" />
+					<label for="image">Edit the cover image :</label> <img
+						th:src="@{/images/{url}(url=${book.image})}" class="m-3"
+						style="max-width: 5vw; max-height: 30vh; margin-bottom: 3vh" /><input
+						type="file" accept="image/*" name="image" class="form-control"
+						th:value="${book.image}" />
 				</div>
 				<div class="form-group" style="text-align: center">
 					<input type="submit" value="Update" class="btn btn-primary" />
 				</div>
 			</form>
+			<form th:action="@{/Books/{id}/delete(id=${book.id})}" method="post">
+				<div class="form-group" style="text-align: center">
+					<button type="submit" class="btn btn-warning">Delete</button>
+				</div>
 		</div>
 
 	</div>

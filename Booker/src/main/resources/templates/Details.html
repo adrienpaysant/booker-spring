@@ -13,21 +13,65 @@
 	<div class="container">
 		<h1 th:utext=${book.title}></h1>
 		<hr />
-		<img th:src="@{/images/{url}(url=${book.image})}" class="m-3" style="max-width:25vw;margin-bottom:3vh"/>
-		
+		<img th:src="@{/images/{url}(url=${book.image})}" class="m-3"
+			style="max-width: 25vw; margin-bottom: 3vh" />
+
 		<dl class="row">
 			<dt class="col-sm-2">Title :</dt>
-			<dd class="col-sm-10" th:utext="${book.title}" style="margin-bottom:1vh"></dd>
+			<dd class="col-sm-10" th:utext="${book.title}"
+				style="margin-bottom: 1vh"></dd>
 			<dt class="col-sm-2">Author :</dt>
-			<dd class="col-sm-10" th:utext="${book.author.getFullName}" style="margin-bottom:1vh"></dd>
+			<dd class="col-sm-10" th:utext="${book.author.getFullName}"
+				style="margin-bottom: 1vh"></dd>
 			<dt class="col-sm-2">Edition :</dt>
-			<dd class="col-sm-10" th:utext="${book.edition}" style="margin-bottom:1vh"></dd>
+			<dd class="col-sm-10" th:utext="${book.edition}"
+				style="margin-bottom: 1vh"></dd>
 			<dt class="col-sm-2">Release Date :</dt>
-			<dd class="col-sm-10" th:utext="${book.releaseDate}" style="margin-bottom:1vh"></dd>
+			<dd class="col-sm-10" th:utext="${book.releaseDate}"
+				style="margin-bottom: 1vh"></dd>
 			<dt class="col-sm-2">Description :</dt>
-			<dd class="col-sm-10" th:utext="${book.description}" style="margin-bottom:1vh"></dd>
+			<dd class="col-sm-10" th:utext="${book.description}"
+				style="margin-bottom: 1vh"></dd>
 		</dl>
-			<a th:href="@{/Books/{id}/update(id=${book.id})}" class="btn btn-primary">Update this book</a>
+		<a th:href="@{/Books/{id}/update(id=${book.id})}"
+			class="btn btn-primary">Update this book</a>
+	</div>
+<h3>Add a comment</h3>
+	<form th:action="@{/Books/{id}/createComment(id=${book.id})}"
+		method="post" th:object="${comForm}">
+		<textarea name="data" class="form-control"></textarea>
+		<button type="submit" class="btn btn-success">Add comment</button>
+	</form>
+	<h3>Comments</h3>
+	<div th:each="com : ${comments}">
+		<div class="container">
+			<div class="form-group">
+				<div th:switch="${com.author.id==userId}">
+
+					<i th:case="true" class="fas fa-check green-text">
+
+						<form
+							th:action="@{/Books/{id}/comment/{comId}/update(id=${book.id},comId=${com.id})}"
+							method="post" th:object="${comForm}">
+							<textarea name="data" class="form-control" th:utext="${com.data}"></textarea>
+							<button type="submit" class="btn btn-success">Update</button>
+						</form>
+						<form
+							th:action="@{/Books/{id}/comment/{comId}/delete(id=${book.id},comId=${com.id})}"
+							method="post">
+							<button type="submit" class="btn btn-warning">Delete</button>
+					</i> <i th:case="false" class="fas fa-times red-text"><textarea
+							th:utext="${com.data}" disabled></textarea></i>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					By : <label class="control-label" th:utext="${com.author.fullName}"></label>
+					On the : <label class="control-label"
+						th:utext="${com.publicationDate}"></label>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 <br>
