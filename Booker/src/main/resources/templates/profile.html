@@ -12,7 +12,8 @@
 <body>
 	<div th:replace="navigationBar :: nav"></div>
 	<div class="container">
-		<h1>Profile Page</h1>
+		<h1 class="my-2">Profile Page</h1>
+		<hr>
 		<div>
 			<form th:action="@{/profile/update}" method="post"
 				th:object="${pForm}">
