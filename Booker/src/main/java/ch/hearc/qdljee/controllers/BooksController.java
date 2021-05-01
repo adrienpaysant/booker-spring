@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.Date;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -15,11 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,10 +31,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ch.hearc.qdljee.Tools;
 import ch.hearc.qdljee.dto.BookDto;
+import ch.hearc.qdljee.dto.CommentDto;
+import ch.hearc.qdljee.dto.RatingsDto;
 import ch.hearc.qdljee.dto.SearchDto;
 import ch.hearc.qdljee.model.Books;
+import ch.hearc.qdljee.model.Role;
 import ch.hearc.qdljee.model.User;
 import ch.hearc.qdljee.service.BookService;
+import ch.hearc.qdljee.service.CommentService;
+import ch.hearc.qdljee.service.RatingsService;
 import ch.hearc.qdljee.service.ShopUserDetails;
 
 @Controller
@@ -42,6 +49,11 @@ public class BooksController {
 
 	@Autowired
 	BookService bookService;
+	@Autowired
+	CommentService commentService;
+	@Autowired
+	RatingsService ratingsService;
+
 	@Autowired
 	private HttpServletRequest request;
 	@Autowired
@@ -55,7 +67,7 @@ public class BooksController {
 
 	@GetMapping("/mybooks")
 	public String myBooks() {
-		return "redirect:/Books/?valueSearch="+Tools.getCurrentUser().getFullName()+"&criterSearch=author";
+		return "redirect:/Books/?valueSearch=" + Tools.getCurrentUser().getFullName() + "&criterSearch=author";
 	}
 
 	@GetMapping
@@ -63,9 +75,9 @@ public class BooksController {
 			@RequestParam("size") Optional<Integer> size, @RequestParam(required = false) String valueSearch,
 			@RequestParam(required = false) String criterSearch) {
 		int currentPage = page.orElse(1);
-		int pageSize = size.orElse(10);
-		if (pageSize > 10) {
-			pageSize = 10;
+		int pageSize = size.orElse(8);
+		if (pageSize >= 8) {
+			pageSize = 8;
 		}
 		if (valueSearch == null && criterSearch == null) {
 			Page<Books> bookPage = bookService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
@@ -100,7 +112,18 @@ public class BooksController {
 	@GetMapping("/{id}")
 	public String details(Model model, @PathVariable("id") int id) {
 		model.addAttribute("book", bookService.getBooksById(id));
+		model.addAttribute("comForm", new CommentDto());
+		model.addAttribute("userId", Tools.getCurrentUser().getId());
+		model.addAttribute("comments", commentService.getAllCommentsForABook(id));
+		model.addAttribute("ratingGlobalValue", ratingsService.getRatingsGlobalValue(id));
+		model.addAttribute("ratingUserValue", ratingsService.getRatingsUserValue(id, Tools.getCurrentUser().getId()));
 		return "Details";
+	}
+
+	@PostMapping("/{id}/rate")
+	public String rate(Model model, @ModelAttribute("ratingsDto") RatingsDto ratingsDto, @PathVariable("id") int id) {
+		ratingsService.saveOrUpdate(ratingsDto, id, Tools.getCurrentUser().getId());
+		return "redirect:/Books/" + id + "/?ratingSucces";
 	}
 
 	@GetMapping("/create")
@@ -130,12 +153,16 @@ public class BooksController {
 		User author = ((ShopUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
 				.getUser();
 		bookService.save(bookDto, imageURL, author);
-		return "redirect:/Books";
+		return "redirect:/Books/?bookCreated";
 	}
 
-	@DeleteMapping("/{id}")
+	@PostMapping("/{id}/delete")
 	public String deleteBook(Model model, @PathVariable("id") int id) {
-		bookService.delete(id);
+		if (!validatePermForBook(id)) {
+			return "redirect:/Books/?errorPermissions";
+		}
+		String path = environment.getProperty("images.path");
+		bookService.delete(id, path);
 		return "redirect:/Books";
 	}
 
@@ -148,8 +175,12 @@ public class BooksController {
 
 	@PostMapping("/{id}/update")
 	public String updateBook(Model model, @PathVariable("id") int id, @ModelAttribute("Bookdto") BookDto bookDto) {
+		if (!validatePermForBook(id)) {
+			return "redirect:/Books/?errorPermissions";
+		}
+
 		String imageURL = null;
-		if (bookDto.getImage() != null) {
+		if (bookDto.getImage() != null && bookDto.getImage().getOriginalFilename().contains("octet-stream")) {
 			String path = environment.getProperty("images.path");
 			imageURL = bookDto.getTitle() + bookDto.getEdition() + "."
 					+ bookDto.getImage().getContentType().substring(6);
@@ -174,6 +205,67 @@ public class BooksController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/Books/" + id;
+		return "redirect:/Books/" + id+"/?bookUpdated";
+	}
+
+	@PostMapping("/{id}/createComment")
+	public String createComment(Model model, @ModelAttribute("CommentDto") CommentDto comDto,
+			@PathVariable("id") int id) {
+		if (!(comDto.getData().isBlank() || comDto.getData().isEmpty())) {
+			comDto.setPublicationDate(new Date(System.currentTimeMillis()));
+			comDto.setBookId(id);
+			commentService.save(comDto);
+		}
+		return "redirect:/Books/" + id+"/?commentAdd";
+	}
+
+	@PostMapping("/{id}/comment/{comId}/update")
+	public String updateComment(Model model, @PathVariable("id") int id, @PathVariable("comId") int comId,
+			@ModelAttribute("CommentDto") CommentDto comDto) throws Exception {
+		if (!validatePermForComment(comId)) {
+			return "redirect:/Books/" + id + "?errorPermissions";
+		}
+		comDto.setPublicationDate(new Date(System.currentTimeMillis()));
+		comDto.setBookId(id);
+		commentService.update(comDto, comId);
+		return "redirect:/Books/" + id+"/?commentEdit";
+	}
+
+	@PostMapping("/{id}/comment/{comId}/delete")
+	public String deleteComment(Model model, @PathVariable("id") int id, @PathVariable("comId") int comId) {
+		if (!validatePermForComment(comId)) {
+			return "redirect:/Books/" + id + "?errorPermissions";
+		}
+		commentService.delete(comId);
+		return "redirect:/Books/" + id+"/?commentDeleted";
+	}
+
+	private boolean validatePermForComment(int comId) {
+		Collection<Role> roles = Tools.getCurrentUser().getRoles();
+		boolean status = false;
+		for (Role role : roles) {
+			if (commentService.getCommentsById(comId).getAuthor().equals(Tools.getCurrentUser())) {
+				status = true;
+			}
+			if (role.getName().equals("ROLE_ADMIN")) {
+				status = false;
+			}
+		}
+		return !status;
+	}
+
+	private boolean validatePermForBook(int id) {
+		Collection<Role> roles = Tools.getCurrentUser().getRoles();
+		boolean status = false;
+		for (Role role : roles) {
+			if (!role.getName().equals("ROLE_AUTHOR")
+					&& !bookService.getBooksById(id).getAuthor().equals(Tools.getCurrentUser())) {
+				status = true;
+			}
+			if (role.getName().equals("ROLE_ADMIN")) {
+				status = false;
+			}
+		}
+		return !status;
 	}
 }

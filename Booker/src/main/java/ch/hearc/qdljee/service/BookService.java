@@ -1,5 +1,6 @@
 package ch.hearc.qdljee.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -124,12 +125,19 @@ public class BookService {
 		Optional<Books> book = bookRepository.findById(id);
 		if (book.isEmpty())
 			throw new Exception("no book to update");
-		book.get().addAttributes(bookDto.getTitle(), bookDto.getDescription(), bookDto.getEdition(), imageURL, author,
+		book.get().addAttributes(bookDto.getTitle(), bookDto.getDescription(), bookDto.getEdition(), imageURL!=null?imageURL:book.get().getImage(), author,
 				bookDto.getReleaseDate());
 		bookRepository.save(book.get());
 	}
 
-	public void delete(int id) {
+	public void delete(int id, String path) {
+		String imageUrl = bookRepository.findById(id).get().getImage();
+		try {
+			File file = new File(path+imageUrl);
+			file.delete();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		bookRepository.deleteById(id);
 	}
 }
