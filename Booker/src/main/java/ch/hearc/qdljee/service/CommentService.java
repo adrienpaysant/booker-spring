@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import ch.hearc.qdljee.Tools;
 import ch.hearc.qdljee.dto.CommentDto;
 import ch.hearc.qdljee.model.Comments;
 import ch.hearc.qdljee.model.User;
@@ -36,18 +37,17 @@ public class CommentService {
 		return commentRepository.findById(id).get();
 	}
 
-	public void save(CommentDto comDto, User author) {
-
-		Comments com = new Comments(comDto.getData(), comDto.getAuthor(), comDto.getPublicationDate(),
+	public void save(CommentDto comDto) {
+		Comments com = new Comments(comDto.getData(), Tools.getCurrentUser(), comDto.getPublicationDate(),
 				comDto.getBookId());
 		commentRepository.save(com);
 	}
 
-	public void update(CommentDto comDto, String data, User author, int id) throws Exception {
+	public void update(CommentDto comDto, String data, int id) throws Exception {
 		Optional<Comments> com = commentRepository.findById(id);
 		if (com.isEmpty())
 			throw new Exception("no comment to update");
-		com.get().addAttributes(comDto.getData(), comDto.getAuthor(), comDto.getPublicationDate());
+		com.get().addAttributes(comDto.getData(), Tools.getCurrentUser(), comDto.getPublicationDate());
 		commentRepository.save(com.get());
 	}
 

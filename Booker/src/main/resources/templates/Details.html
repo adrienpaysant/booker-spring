@@ -40,21 +40,41 @@
 	<div class="container">
 		<h1 th:utext=${book.title}></h1>
 		<hr />
-		<img th:src="@{/images/{url}(url=${book.image})}" class="m-3" style="max-width:25vw;margin-bottom:3vh"/>
-		
+		<img th:src="@{/images/{url}(url=${book.image})}" class="m-3"
+			style="max-width: 25vw; margin-bottom: 3vh" />
+
 		<dl class="row">
 			<dt class="col-sm-2">Title :</dt>
-			<dd class="col-sm-10" th:utext="${book.title}" style="margin-bottom:1vh"></dd>
+			<dd class="col-sm-10" th:utext="${book.title}"
+				style="margin-bottom: 1vh"></dd>
 			<dt class="col-sm-2">Author :</dt>
-			<dd class="col-sm-10" th:utext="${book.author.getFullName}" style="margin-bottom:1vh"></dd>
+			<dd class="col-sm-10" th:utext="${book.author.getFullName}"
+				style="margin-bottom: 1vh"></dd>
 			<dt class="col-sm-2">Edition :</dt>
-			<dd class="col-sm-10" th:utext="${book.edition}" style="margin-bottom:1vh"></dd>
+			<dd class="col-sm-10" th:utext="${book.edition}"
+				style="margin-bottom: 1vh"></dd>
 			<dt class="col-sm-2">Release Date :</dt>
-			<dd class="col-sm-10" th:utext="${book.releaseDate}" style="margin-bottom:1vh"></dd>
+			<dd class="col-sm-10" th:utext="${book.releaseDate}"
+				style="margin-bottom: 1vh"></dd>
 			<dt class="col-sm-2">Description :</dt>
-			<dd class="col-sm-10" th:utext="${book.description}" style="margin-bottom:1vh"></dd>
+			<dd class="col-sm-10" th:utext="${book.description}"
+				style="margin-bottom: 1vh"></dd>
 		</dl>
-			<a th:href="@{/Books/{id}/update(id=${book.id})}" class="btn btn-primary">Update this book</a>
+		<a th:href="@{/Books/{id}/update(id=${book.id})}"
+			class="btn btn-primary">Update this book</a>
+	</div>
+	<div th:each="com : ${comments}">
+		<div class="container">
+			<div class="form-group">
+				<textarea th:utext="${com.data}"></textarea>
+			</div>
+			<div class="form-group">
+				<div class="row">
+				<label class="control-label" th:utext="${com.author.fullname}"></label>
+				<label class="control-label" th:value="${com.publicationDate}"></label>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

@@ -2,22 +2,11 @@ package ch.hearc.qdljee.dto;
 
 import java.sql.Date;
 
-import ch.hearc.qdljee.model.User;
-
 public class CommentDto {
-	private User author;
 	private Integer bookId;
 	private Date publicationDate;
 	private String data;
-
-	public User getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(User author) {
-		this.author = author;
-	}
-
+	
 	public Integer getBookId() {
 		return bookId;
 	}

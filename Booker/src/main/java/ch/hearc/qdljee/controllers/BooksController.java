@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,6 +33,7 @@ import ch.hearc.qdljee.dto.BookDto;
 import ch.hearc.qdljee.dto.CommentDto;
 import ch.hearc.qdljee.dto.SearchDto;
 import ch.hearc.qdljee.model.Books;
+import ch.hearc.qdljee.model.Comments;
 import ch.hearc.qdljee.model.User;
 import ch.hearc.qdljee.service.BookService;
 import ch.hearc.qdljee.service.CommentService;
@@ -180,6 +182,32 @@ public class BooksController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return "redirect:/Books/" + id;
+	}
+
+	@PostMapping("/{id}/createComment")
+	public String createComment(Model model, @ModelAttribute("CommentDto") CommentDto comDto,
+			@PathVariable("id") int id) {
+		comDto.setPublicationDate(new Date(System.currentTimeMillis()));
+		comDto.setBookId(id);
+		commentService.save(comDto);
+		return "redirect:/Books/" + id;
+	}
+
+	@PostMapping("/{id}/comment/{comId}")
+	public String updateComment(Model model, @PathVariable("id") int id, @PathVariable("comId") int comId,
+			@ModelAttribute("CommentDto") CommentDto comDto) {
+		Comments com = commentService.getCommentsById(comId);
+		com.setData(comDto.getData());
+		comDto.setPublicationDate(new Date(System.currentTimeMillis()));
+		comDto.setBookId(comId);
+		commentService.save(comDto);
+		return "redirect:/Books/" + id;
+	}
+
+	@DeleteMapping("/{id}/deleteCom/{comId}")
+	public String deleteComment(Model model, @PathVariable("id") int id, @PathVariable("comId") int comId) {
+		commentService.delete(comId);
 		return "redirect:/Books/" + id;
 	}
 }
