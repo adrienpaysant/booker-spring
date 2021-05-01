@@ -7,6 +7,7 @@
 
 <link th:rel="stylesheet"
 	th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " />
+<link href="/images/favicon.ico" rel="shortcut icon" />
 
 </head>
 <body>
@@ -16,10 +17,10 @@
 			<div class="col-md-6 col-md-offset-3">
 				<h1>User Login Page</h1>
 				<!-- success message -->
-					<div th:if="${param.success}">
-						<div class="alert alert-warning">You've successfully
-							registered to our awesome app ! You can now login !</div>
-					</div>
+				<div th:if="${param.success}">
+					<div class="alert alert-warning">You've successfully
+						registered to our awesome app ! You can now login !</div>
+				</div>
 				<form th:action="@{/login}" method="post">
 					<!-- error message -->
 					<div th:if="${param.error}">
