@@ -33,9 +33,14 @@
 			<dd class="col-sm-10" th:utext="${book.description}"
 				style="margin-bottom: 1vh"></dd>
 		</dl>
+		<div class=row>
 		<a th:href="@{/Books/{id}/update(id=${book.id})}"
-			class="btn btn-primary mb-5">Update this book</a>
-		<h3 class="mt-5">Add a comment</h3>
+			class="btn btn-primary mr-2">Update this book</a>
+		<form th:action="@{/Books/{id}/delete(id=${book.id})}" method="post">
+			<button type="submit" class="btn btn-danger ">Delete this Book</button>
+		</form>
+		</div>
+		<h3 class="mt-3">Add a comment</h3>
 		<form th:action="@{/Books/{id}/createComment(id=${book.id})}"
 			method="post" th:object="${comForm}">
 			<textarea name="data" class="form-control m-3"></textarea>
