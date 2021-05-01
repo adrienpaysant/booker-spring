@@ -37,6 +37,7 @@
 			<dd class="col-sm-10" th:utext="${ratingGlobalValue} == 7 ? 'No rating yet' : ${ratingGlobalValue}"
 				style="margin-bottom: 1vh"></dd>
 		</dl>
+		<hr>
 		<div class="row">
 			<form th:action="@{/Books/{id}/rate(id=${book.id})}" method="post" class="mb-2">
 				<label for="value" class="m-2">Rate (0-5) :</label>
@@ -52,6 +53,7 @@
 					Book</button>
 			</form>
 		</div>
+		<hr>
 		<h3 class="mt-3">Add a comment</h3>
 		<form th:action="@{/Books/{id}/createComment(id=${book.id})}"
 			method="post" th:object="${comForm}">
