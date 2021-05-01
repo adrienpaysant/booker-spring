@@ -16,11 +16,6 @@
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
 				<h1>Register</h1>
-				<!-- success message -->
-				<div th:if="${param.success}">
-					<div class="alert alert-warning">You've successfully
-						registered to our awesome app!</div>
-				</div>
 				<!-- error message -->
 				<div th:if="${param.error}">
 					<div class="alert alert-warning">Wrong Data typed !</div>
@@ -50,7 +45,7 @@
 							th:field="*{password}" required autofocus="autofocus" />
 					</div>
 					<div class="form-group">
-						<label class="control-label"> Check is you're an author :
+						<label class="control-label"> Check if you're an author :
 						</label> <input type="checkbox" name="author" th:checked="*{author}" />
 					</div>
 					<div class="form-group">

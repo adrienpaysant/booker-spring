@@ -39,7 +39,7 @@ public class UserController {
 				&& !registrationDto.getFirstName().isEmpty() && !registrationDto.getLastName().isEmpty() &&  !registrationDto.getPassword().isBlank() 
 				&& !registrationDto.getPassword().isEmpty()) {
 			userService.save(registrationDto);
-			return "redirect:/register?success";
+			return "redirect:/login?success";
 		} else {
 			return "redirect:/register?error";
 		}
