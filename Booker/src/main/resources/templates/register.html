@@ -4,13 +4,14 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Registration</title>
-	
-	<link th:rel="stylesheet" 
+
+<link th:rel="stylesheet"
 	th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " />
-	
+<link href="/images/favicon.ico" rel="shortcut icon" />
+
 </head>
 <body>
-<div th:replace="navigationBar :: nav"></div>
+	<div th:replace="navigationBar :: nav"></div>
 	<!-- Create HTML registration form -->
 	<div class="container">
 		<div class="row">
@@ -30,7 +31,7 @@
 					<div class="form-group">
 						<label class="control-label" for="lastName"> Last Name </label> <input
 							id="lastName" class="form-control" th:field="*{lastName}"
-							required autofocus="autofocus"/>
+							required autofocus="autofocus" />
 					</div>
 
 					<div class="form-group">

@@ -7,10 +7,11 @@
 
 <link th:rel="stylesheet"
 	th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " />
+<link href="/images/favicon.ico" rel="shortcut icon" />
 </head>
 <body>
 	<div th:replace="navigationBar :: nav"></div>
-	<div class="container w-25" style="font-size:2vh">
+	<div class="container w-25" style="font-size: 2vh">
 		<h2 th:utext=${book.title}>title-holder</h2>
 		<div>
 			<form method="POST" th:action="@{/Books/{id}/update(id=${book.id})}"
@@ -20,7 +21,7 @@
 						name="title" class="form-control" th:value="${book.title}" />
 				</div>
 				<div class="form-group">
-				<label for="description">Edit Description :</label> 
+					<label for="description">Edit Description :</label>
 					<textarea name="description" class="form-control"
 						th:utext="${book.description}"></textarea>
 				</div>
