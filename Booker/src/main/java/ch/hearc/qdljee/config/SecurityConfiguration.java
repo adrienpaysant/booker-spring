@@ -11,6 +11,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import ch.hearc.qdljee.service.UserService;
 
@@ -22,7 +25,8 @@ import ch.hearc.qdljee.service.UserService;
  */
 @Configuration
 @EnableWebSecurity(debug = false)
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+@EnableWebMvc
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
 	@Autowired
 	private UserService userService;
@@ -47,13 +51,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/register**", "/js/**", "/css/**", "/images/**", "/webjars/**").permitAll()
-				.antMatchers("/Books/create").access("hasRole('ROLE_AUTHOR') or hasRole('ROLE_ADMIN')")
+		http.authorizeRequests().antMatchers("/register**", "/js/**", "/css/**", "/images/**", "/webjars/**")
+				.permitAll().antMatchers("/Books/create").access("hasRole('ROLE_AUTHOR') or hasRole('ROLE_ADMIN')")
 				.antMatchers("/Books/mybooks").access("hasRole('ROLE_AUTHOR') or hasRole('ROLE_ADMIN')").anyRequest()
 				.authenticated().and().formLogin().loginPage("/login").permitAll().and().logout()
 				.invalidateHttpSession(true).clearAuthentication(true)
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout")
 				.permitAll();
+	}
+
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/webjars/**", "/images/**", "/css/**", "/js/**").addResourceLocations(
+				"classpath:/META-INF/resources/webjars/", "classpath:/static/images/", "classpath:/static/css/",
+				"classpath:/static/js/");
 	}
 
 }
