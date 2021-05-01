@@ -14,6 +14,11 @@ import ch.hearc.qdljee.repository.BookRepositery;
 import ch.hearc.qdljee.repository.RatingsRepository;
 import ch.hearc.qdljee.repository.UserRepository;
 
+/**
+ * 
+ * @author Adrien Paysant and Joris Monnet
+ *
+ */
 @Service
 public class RatingsService {
 
@@ -41,28 +46,43 @@ public class RatingsService {
 		return bookRatings;
 	}
 
+	/**
+	 * Return the rating of the book
+	 * 
+	 * @param bookId
+	 * @return
+	 */
 	public float getRatingsGlobalValue(Integer bookId) {
 		List<Ratings> bookRatings = getAllRatingsForABook(bookId);
 		OptionalInt sum = bookRatings.parallelStream().mapToInt(r -> r.getValue()).reduce(Integer::sum);
-		return sum.isPresent() ? sum.getAsInt()/ (float)bookRatings.size():7;
+		return sum.isPresent() ? sum.getAsInt() / (float) bookRatings.size() : 7;
 	}
 
-	public int getRatingsUserValue(Integer bookId,Long userId) {
+	/**
+	 * Return the value of the user rating for the given book
+	 * 
+	 * @param bookId
+	 * @param userId
+	 * @return
+	 */
+	public int getRatingsUserValue(Integer bookId, Long userId) {
 		List<Ratings> bookRatings = getAllRatingsForABook(bookId);
-		Optional<Ratings> rating = bookRatings.parallelStream().filter(r -> r.getUser().getId()==userId).findFirst();
-		return rating.isPresent()?rating.get().getValue():7;
+		Optional<Ratings> rating = bookRatings.parallelStream().filter(r -> r.getUser().getId() == userId).findFirst();
+		return rating.isPresent() ? rating.get().getValue() : 7;
 	}
-	
-	public void saveOrUpdate(RatingsDto ratingsDto, Integer bookId,Long userId) {
+
+	public void saveOrUpdate(RatingsDto ratingsDto, Integer bookId, Long userId) {
 		List<Ratings> all = getAllRatings();
-		Optional<Ratings> rating = all.parallelStream().filter(r -> r.getBook().getId()==bookId && r.getUser().getId()==userId).findAny();
-		if(rating.isPresent()) {
+		Optional<Ratings> rating = all.parallelStream()
+				.filter(r -> r.getBook().getId() == bookId && r.getUser().getId() == userId).findAny();
+		if (rating.isPresent()) {
 			rating.get().setValue(ratingsDto.getValue());
 			ratingsRepository.save(rating.get());
 		} else {
-			Ratings newRating = new Ratings(ratingsDto.getValue(),booksRepository.findById(bookId).get(),userRepository.findById(userId).get());
+			Ratings newRating = new Ratings(ratingsDto.getValue(), booksRepository.findById(bookId).get(),
+					userRepository.findById(userId).get());
 			ratingsRepository.save(newRating);
 		}
-		
+
 	}
 }

@@ -11,13 +11,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,6 +39,12 @@ import ch.hearc.qdljee.service.CommentService;
 import ch.hearc.qdljee.service.RatingsService;
 import ch.hearc.qdljee.service.ShopUserDetails;
 
+/**
+ * Books controller, handle also comments and ratings
+ * 
+ * @author Adrien Paysant and Joris Monnet
+ *
+ */
 @Controller
 @CrossOrigin
 @RequestMapping("/Books")
@@ -49,27 +52,36 @@ public class BooksController {
 
 	@Autowired
 	BookService bookService;
+
 	@Autowired
 	CommentService commentService;
+
 	@Autowired
 	RatingsService ratingsService;
 
 	@Autowired
-	private HttpServletRequest request;
-	@Autowired
 	private Environment environment;
 
-//	@GetMapping
-//	public String index(Model model) {
-//		model.addAttribute("books", bookService.getAllBooks());
-//		return "Books";
-//	}
-
+	/**
+	 * Return the Books view with search value for author as the current user
+	 * 
+	 * @return
+	 */
 	@GetMapping("/mybooks")
 	public String myBooks() {
 		return "redirect:/Books/?valueSearch=" + Tools.getCurrentUser().getFullName() + "&criterSearch=author";
 	}
 
+	/**
+	 * Return Books page with pagination and search results
+	 * 
+	 * @param model
+	 * @param page
+	 * @param size
+	 * @param valueSearch
+	 * @param criterSearch
+	 * @return Books page
+	 */
 	@GetMapping
 	public String listBooks(Model model, @RequestParam("page") Optional<Integer> page,
 			@RequestParam("size") Optional<Integer> size, @RequestParam(required = false) String valueSearch,
@@ -102,6 +114,15 @@ public class BooksController {
 		return "Books";
 	}
 
+	/**
+	 * Return the Books page with the search criteria
+	 * 
+	 * @param model
+	 * @param sFrom
+	 * @param searchValue
+	 * @param searchCriter
+	 * @return
+	 */
 	@GetMapping("/search")
 	public String search(Model model, //
 			@ModelAttribute("sForm") SearchDto sFrom, @RequestParam(required = true) String searchValue,
@@ -109,6 +130,13 @@ public class BooksController {
 		return "redirect:/Books/?valueSearch=" + searchValue + "&criterSearch=" + searchCriter;
 	}
 
+	/**
+	 * Return Details page of a book
+	 * 
+	 * @param model
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/{id}")
 	public String details(Model model, @PathVariable("id") int id) {
 		model.addAttribute("book", bookService.getBooksById(id));
@@ -120,18 +148,39 @@ public class BooksController {
 		return "Details";
 	}
 
+	/**
+	 * Rate a book
+	 * 
+	 * @param model
+	 * @param ratingsDto
+	 * @param id
+	 * @return
+	 */
 	@PostMapping("/{id}/rate")
 	public String rate(Model model, @ModelAttribute("ratingsDto") RatingsDto ratingsDto, @PathVariable("id") int id) {
 		ratingsService.saveOrUpdate(ratingsDto, id, Tools.getCurrentUser().getId());
 		return "redirect:/Books/" + id + "/?ratingSucces";
 	}
 
+	/**
+	 * Get the create page for books
+	 * 
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/create")
 	public String getCreatePage(Model model) {
 		model.addAttribute("addBookForm", new BookDto());
 		return "createBookPage";
 	}
 
+	/**
+	 * Create a new book
+	 * 
+	 * @param model
+	 * @param bookDto
+	 * @return
+	 */
 	@PostMapping("/create")
 	public String createBook(Model model, @ModelAttribute("BookDto") BookDto bookDto) {
 		String path = environment.getProperty("images.path");
@@ -156,6 +205,13 @@ public class BooksController {
 		return "redirect:/Books/?bookCreated";
 	}
 
+	/**
+	 * Delete a book
+	 * 
+	 * @param model
+	 * @param id
+	 * @return
+	 */
 	@PostMapping("/{id}/delete")
 	public String deleteBook(Model model, @PathVariable("id") int id) {
 		if (!validatePermForBook(id)) {
@@ -166,6 +222,13 @@ public class BooksController {
 		return "redirect:/Books";
 	}
 
+	/**
+	 * Get the update form for the books
+	 * 
+	 * @param model
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/{id}/update")
 	public String updateBookPage(Model model, @PathVariable("id") int id) {
 		model.addAttribute("updateForm", new BookDto());
@@ -173,6 +236,14 @@ public class BooksController {
 		return "updateBookPage";
 	}
 
+	/**
+	 * Update a Book
+	 * 
+	 * @param model
+	 * @param id
+	 * @param bookDto
+	 * @return
+	 */
 	@PostMapping("/{id}/update")
 	public String updateBook(Model model, @PathVariable("id") int id, @ModelAttribute("Bookdto") BookDto bookDto) {
 		if (!validatePermForBook(id)) {
@@ -205,9 +276,17 @@ public class BooksController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/Books/" + id+"/?bookUpdated";
+		return "redirect:/Books/" + id + "/?bookUpdated";
 	}
 
+	/**
+	 * Add a new comment
+	 * 
+	 * @param model
+	 * @param comDto
+	 * @param id
+	 * @return
+	 */
 	@PostMapping("/{id}/createComment")
 	public String createComment(Model model, @ModelAttribute("CommentDto") CommentDto comDto,
 			@PathVariable("id") int id) {
@@ -216,9 +295,19 @@ public class BooksController {
 			comDto.setBookId(id);
 			commentService.save(comDto);
 		}
-		return "redirect:/Books/" + id+"/?commentAdd";
+		return "redirect:/Books/" + id + "/?commentAdd";
 	}
 
+	/**
+	 * Update a comment
+	 * 
+	 * @param model
+	 * @param id
+	 * @param comId
+	 * @param comDto
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping("/{id}/comment/{comId}/update")
 	public String updateComment(Model model, @PathVariable("id") int id, @PathVariable("comId") int comId,
 			@ModelAttribute("CommentDto") CommentDto comDto) throws Exception {
@@ -228,18 +317,32 @@ public class BooksController {
 		comDto.setPublicationDate(new Date(System.currentTimeMillis()));
 		comDto.setBookId(id);
 		commentService.update(comDto, comId);
-		return "redirect:/Books/" + id+"/?commentEdit";
+		return "redirect:/Books/" + id + "/?commentEdit";
 	}
 
+	/**
+	 * Delete a comment
+	 * 
+	 * @param model
+	 * @param id
+	 * @param comId
+	 * @return
+	 */
 	@PostMapping("/{id}/comment/{comId}/delete")
 	public String deleteComment(Model model, @PathVariable("id") int id, @PathVariable("comId") int comId) {
 		if (!validatePermForComment(comId)) {
 			return "redirect:/Books/" + id + "?errorPermissions";
 		}
 		commentService.delete(comId);
-		return "redirect:/Books/" + id+"/?commentDeleted";
+		return "redirect:/Books/" + id + "/?commentDeleted";
 	}
 
+	/**
+	 * Check if user has permissions for the comments
+	 * 
+	 * @param comId
+	 * @return
+	 */
 	private boolean validatePermForComment(int comId) {
 		Collection<Role> roles = Tools.getCurrentUser().getRoles();
 		boolean status = false;
@@ -254,6 +357,12 @@ public class BooksController {
 		return !status;
 	}
 
+	/**
+	 * Check if the user has the permissions for the book update/delete
+	 * 
+	 * @param id
+	 * @return
+	 */
 	private boolean validatePermForBook(int id) {
 		Collection<Role> roles = Tools.getCurrentUser().getRoles();
 		boolean status = false;

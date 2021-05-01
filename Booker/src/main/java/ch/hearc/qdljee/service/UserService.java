@@ -7,6 +7,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import ch.hearc.qdljee.dto.UserDto;
 import ch.hearc.qdljee.model.User;
 
+/**
+ * 
+ * @author Adrien Paysant and Joris Monnet
+ *
+ */
 public interface UserService extends UserDetailsService {
 	User save(UserDto registrationDto);
 	Iterable<User> findAll();

@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,11 +20,21 @@ import ch.hearc.qdljee.model.Books;
 import ch.hearc.qdljee.model.User;
 import ch.hearc.qdljee.repository.BookRepositery;
 
+/**
+ * 
+ * @author Adrien Paysant and Joris Monnet
+ *
+ */
 @Service
 public class BookService {
 	@Autowired
 	BookRepositery bookRepository;
 
+	/**
+	 * Get books with pagination
+	 * @param pageable
+	 * @return
+	 */
 	public Page<Books> findPaginated(Pageable pageable) {
 		List<Books> books = new LinkedList<Books>();
 		books = getAllBooks();
@@ -44,6 +55,14 @@ public class BookService {
 		return bookPage;
 	}
 
+	
+	/**
+	 * Get books with pagination and search values
+	 * @param pageable
+	 * @param valueSearch
+	 * @param criterSearch
+	 * @return
+	 */
 	public Page<Books> findPaginated(PageRequest pageable, String valueSearch, String criterSearch) {
 		System.out.println("val : " + valueSearch);
 		System.out.println("crit : " + criterSearch);
@@ -97,6 +116,12 @@ public class BookService {
 
 	}
 
+	/**
+	 * Simple search
+	 * @param valueSearch
+	 * @param tempBooks
+	 * @param books
+	 */
 	private void findBooksByTitle(String valueSearch, List<Books> tempBooks, List<Books> books) {
 		for (Books tempBook : tempBooks) {
 			if (tempBook.getTitle().toLowerCase().contains(valueSearch.toLowerCase())) {

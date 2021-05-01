@@ -14,8 +14,14 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import ch.hearc.qdljee.service.UserService;
 
+/**
+ * Class which handle the security configuration
+ * 
+ * @author Adrien Paysant and Joris Monnet
+ *
+ */
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = false)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -41,27 +47,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers(
-				 "/register**",
-	                "/js/**",
-	                "/css/**",
-	                "/img/**",
-	                "/webjars/**").permitAll()
-		.antMatchers("/Books/mybooks").access("hasRole('ROLE_AUTHOR') or hasRole('ROLE_ADMIN')")
-		.antMatchers("/Books/create").access("hasRole('ROLE_AUTHOR') or hasRole('ROLE_ADMIN')")
-		.antMatchers("/Books/mybooks").access("hasRole('ROLE_AUTHOR') or hasRole('ROLE_ADMIN')")
-		.anyRequest().authenticated()
-		.and()
-		.formLogin()
-		.loginPage("/login")
-		.permitAll()
-		.and()
-		.logout()
-		.invalidateHttpSession(true)
-		.clearAuthentication(true)
-		.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-		.logoutSuccessUrl("/login?logout")
-		.permitAll();
+		http.authorizeRequests().antMatchers("/register**", "/js/**", "/css/**", "/img/**", "/webjars/**").permitAll()
+				.antMatchers("/Books/create").access("hasRole('ROLE_AUTHOR') or hasRole('ROLE_ADMIN')")
+				.antMatchers("/Books/mybooks").access("hasRole('ROLE_AUTHOR') or hasRole('ROLE_ADMIN')").anyRequest()
+				.authenticated().and().formLogin().loginPage("/login").permitAll().and().logout()
+				.invalidateHttpSession(true).clearAuthentication(true)
+				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout")
+				.permitAll();
 	}
 
 }

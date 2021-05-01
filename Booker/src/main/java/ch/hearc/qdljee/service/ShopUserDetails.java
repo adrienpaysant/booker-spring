@@ -8,9 +8,17 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import ch.hearc.qdljee.model.User;
-
+/**
+ * 
+ * @author Adrien Paysant and Joris Monnet
+ *
+ */
 public class ShopUserDetails implements UserDetails {
 
+	/**
+	 * default
+	 */
+	private static final long serialVersionUID = 1L;
 	private User user;
 
 	public ShopUserDetails(User user) {

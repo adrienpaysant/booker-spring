@@ -14,6 +14,11 @@ import ch.hearc.qdljee.dto.CommentDto;
 import ch.hearc.qdljee.model.Comments;
 import ch.hearc.qdljee.repository.CommentRepository;
 
+/**
+ * 
+ * @author Adrien Paysant and Joris Monnet
+ *
+ */
 @Service
 public class CommentService {
 	@Autowired

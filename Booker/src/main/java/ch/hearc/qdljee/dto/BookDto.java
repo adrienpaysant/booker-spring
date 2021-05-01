@@ -4,6 +4,12 @@ import java.sql.Date;
 
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * Book Data transfer Object
+ * 
+ * @author Adrien Paysant and Joris Monnet
+ *
+ */
 public class BookDto {
 	private String title;
 	private String edition;

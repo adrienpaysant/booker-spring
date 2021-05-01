@@ -5,6 +5,11 @@ import org.springframework.stereotype.Repository;
 
 import ch.hearc.qdljee.model.Comments;
 
+/**
+ * 
+ * @author Adrien Paysant and Joris Monnet
+ *
+ */
 @Repository
 public interface CommentRepository extends CrudRepository<Comments, Integer> {
 
