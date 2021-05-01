@@ -48,6 +48,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	                "/css/**",
 	                "/img/**",
 	                "/webjars/**").permitAll()
+		.antMatchers("/Books/mybooks").access("hasRole('ROLE_AUTHOR') or hasRole('ROLE_ADMIN')")
+		.antMatchers("/Books/create").access("hasRole('ROLE_AUTHOR') or hasRole('ROLE_ADMIN')")
+		.antMatchers("/Books/mybooks").access("hasRole('ROLE_AUTHOR') or hasRole('ROLE_ADMIN')")
 		.anyRequest().authenticated()
 		.and()
 		.formLogin()
