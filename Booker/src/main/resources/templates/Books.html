@@ -5,7 +5,8 @@
 <meta charset="ISO-8859-1">
 <title>Booker</title>
 
-<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " />
+<link th:rel="stylesheet"
+	th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " />
 </head>
 <body>
 	<div th:replace="navigationBar :: nav"></div>
@@ -14,24 +15,18 @@
 		<!-- PAGINATION BEGIN -->
 		<div id="searchBar" class="mb-0">
 			<form th:action="@{/Books/search}" method="get" th:object="${sForm}">
-				<div class="row">
-					<div class="col-sm-4 ">
-						<div class="row m-3">
-							<select th:field="*{searchCriter}">
-								<option th:value="none">SimpleSearch</option>
-								<option th:value="author">By Author</option>
-								<option th:value="title">By Title</option>
-								<option th:value="edition">By Edition</option>
-							</select> 
-							<input type="text" id="search" name="search"
-								placeholder="You want it ? Find it ..." autofocus="autofocus"
-								required th:field="*{searchValue}" class="m-1"> 
-								<input type="submit"
-								name="search-submit" id="search-submit" class=" btn btn-primary m-1"
-								value="Find"/> 
-								<a th:href="@{/Books}" class="btn btn-primary m-1">Reset</a>
-						</div>
-					</div>
+				<div class="row m-3">
+					<select th:field="*{searchCriter}">
+						<option th:value="none">SimpleSearch</option>
+						<option th:value="author">By Author</option>
+						<option th:value="title">By Title</option>
+						<option th:value="edition">By Edition</option>
+					</select> <input type="text" id="search" name="search"
+						placeholder="You want it ? Find it ..." autofocus="autofocus"
+						required th:field="*{searchValue}" class="m-1"> <input
+						type="submit" name="search-submit" id="search-submit"
+						class=" btn btn-primary m-1" value="Find" /> <a
+						th:href="@{/Books}" class="btn btn-primary m-1">Reset</a>
 				</div>
 			</form>
 		</div>
@@ -44,7 +39,7 @@
 					style="text-align: justify; margin-left: 2vw">
 					<div style="text-align: center; max-width: 10vw;">
 						<img th:src="@{/images/{url}(url=${book.image})}"
-							style="max-height: 25vh;max-width: 10vw" />
+							style="max-height: 25vh; max-width: 10vw" />
 						<p th:text="${book.title}"
 							style="margin-top: 1vh; word-wrap: break-word"></p>
 					</div>
