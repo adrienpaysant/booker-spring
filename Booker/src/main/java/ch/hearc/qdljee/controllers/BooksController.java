@@ -251,7 +251,7 @@ public class BooksController {
 		}
 
 		String imageURL = null;
-		if (bookDto.getImage() != null && bookDto.getImage().getOriginalFilename().contains("octet-stream")) {
+		if (bookDto.getImage() != null && !bookDto.getImage().getOriginalFilename().contains("octet-stream")) {
 			String path = environment.getProperty("images.path");
 			imageURL = bookDto.getTitle() + bookDto.getEdition() + "."
 					+ bookDto.getImage().getContentType().substring(6);
