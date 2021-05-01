@@ -1,5 +1,6 @@
 package ch.hearc.qdljee.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -129,7 +130,14 @@ public class BookService {
 		bookRepository.save(book.get());
 	}
 
-	public void delete(int id) {
+	public void delete(int id, String path) {
+		String imageUrl = bookRepository.findById(id).get().getImage();
+		try {
+			File file = new File(path+imageUrl);
+			file.delete();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		bookRepository.deleteById(id);
 	}
 }

@@ -142,7 +142,8 @@ public class BooksController {
 
 	@PostMapping("/{id}/delete")
 	public String deleteBook(Model model, @PathVariable("id") int id) {
-		bookService.delete(id);
+		String path = environment.getProperty("images.path");
+		bookService.delete(id,path);
 		return "redirect:/Books";
 	}
 
