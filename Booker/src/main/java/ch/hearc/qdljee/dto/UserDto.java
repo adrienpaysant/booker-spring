@@ -1,5 +1,10 @@
 package ch.hearc.qdljee.dto;
 
+/**
+ * User Data Transfer Object
+ * @author Adrien Paysant and Joris Monnet
+ *
+ */
 public class UserDto {
 	private String firstName;
 	private String lastName;

@@ -1,5 +1,11 @@
 package ch.hearc.qdljee.dto;
 
+/**
+ * Ratings Data Transfer Object
+ * 
+ * @author Adrien Paysant and Joris Monnet
+ *
+ */
 public class RatingsDto {
 	private Integer value;
 

@@ -2,6 +2,12 @@ package ch.hearc.qdljee.dto;
 
 import java.sql.Date;
 
+/**
+ * Comment Data transfer Object
+ * 
+ * @author Adrien Paysant and Joris Monnet
+ *
+ */
 public class CommentDto {
 	private Integer bookId;
 	private Date publicationDate;

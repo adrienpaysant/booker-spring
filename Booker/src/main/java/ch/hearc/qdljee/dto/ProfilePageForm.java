@@ -1,5 +1,11 @@
 package ch.hearc.qdljee.dto;
 
+/**
+ * Profile Page form
+ * 
+ * @author Adrien Paysant and Joris Monnet
+ *
+ */
 public class ProfilePageForm {
 
 	public String newPassword;

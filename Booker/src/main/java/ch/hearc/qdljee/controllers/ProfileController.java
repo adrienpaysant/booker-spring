@@ -17,6 +17,11 @@ import ch.hearc.qdljee.model.Role;
 import ch.hearc.qdljee.model.User;
 import ch.hearc.qdljee.service.UserService;
 
+/**
+ * 
+ * @author Adrien Paysant and Joris Monnet
+ *
+ */
 @Controller
 public class ProfileController {
 
@@ -30,6 +35,12 @@ public class ProfileController {
 		this.userService = userService;
 	}
 
+	/**
+	 * Get profile page
+	 * 
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/profile")
 	public String profile(Model model) {
 		User now = Tools.getCurrentUser();
@@ -43,6 +54,13 @@ public class ProfileController {
 		return "profile";
 	}
 
+	/**
+	 * Update profile
+	 * 
+	 * @param model
+	 * @param ppForm
+	 * @return
+	 */
 	@PostMapping("/profile/update")
 	public String profileUpdate(Model model, //
 			@ModelAttribute("pForm") ProfilePageForm ppForm) {

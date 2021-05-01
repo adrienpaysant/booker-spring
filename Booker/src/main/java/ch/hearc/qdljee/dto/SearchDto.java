@@ -1,5 +1,11 @@
 package ch.hearc.qdljee.dto;
 
+/**
+ * Search Data Transfer Object
+ * 
+ * @author Adrien Paysant and Joris Monnet
+ *
+ */
 public class SearchDto {
 	private String searchValue;
 	private String searchCriter;
