@@ -53,7 +53,7 @@ public class BooksController {
 	CommentService commentService;
 	@Autowired
 	RatingsService ratingsService;
-	
+
 	@Autowired
 	private HttpServletRequest request;
 	@Autowired
@@ -115,17 +115,17 @@ public class BooksController {
 		model.addAttribute("comForm", new CommentDto());
 		model.addAttribute("userId", Tools.getCurrentUser().getId());
 		model.addAttribute("comments", commentService.getAllCommentsForABook(id));
-		model.addAttribute("ratingGlobalValue",ratingsService.getRatingsGlobalValue(id));
-		model.addAttribute("ratingUserValue",ratingsService.getRatingsUserValue(id, Tools.getCurrentUser().getId()));
+		model.addAttribute("ratingGlobalValue", ratingsService.getRatingsGlobalValue(id));
+		model.addAttribute("ratingUserValue", ratingsService.getRatingsUserValue(id, Tools.getCurrentUser().getId()));
 		return "Details";
 	}
 
 	@PostMapping("/{id}/rate")
 	public String rate(Model model, @ModelAttribute("ratingsDto") RatingsDto ratingsDto, @PathVariable("id") int id) {
-		ratingsService.saveOrUpdate(ratingsDto,id,Tools.getCurrentUser().getId());
-		return "redirect:/Books/"+id;
+		ratingsService.saveOrUpdate(ratingsDto, id, Tools.getCurrentUser().getId());
+		return "redirect:/Books/" + id + "/?ratingSucces";
 	}
-	
+
 	@GetMapping("/create")
 	public String getCreatePage(Model model) {
 		model.addAttribute("addBookForm", new BookDto());
