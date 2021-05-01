@@ -144,7 +144,7 @@ public class BooksController {
 
 	@PostMapping("/{id}/delete")
 	public String deleteBook(Model model, @PathVariable("id") int id) {
-		if(!validatePermForBook(id)) {
+		if (!validatePermForBook(id)) {
 			return "redirect:/Books/?errorPermissions";
 		}
 		String path = environment.getProperty("images.path");
@@ -161,7 +161,7 @@ public class BooksController {
 
 	@PostMapping("/{id}/update")
 	public String updateBook(Model model, @PathVariable("id") int id, @ModelAttribute("Bookdto") BookDto bookDto) {
-		if(!validatePermForBook(id)) {
+		if (!validatePermForBook(id)) {
 			return "redirect:/Books/?errorPermissions";
 		}
 
@@ -194,21 +194,6 @@ public class BooksController {
 		return "redirect:/Books/" + id;
 	}
 
-	private boolean validatePermForBook(int id) {
-		Collection<Role> roles = Tools.getCurrentUser().getRoles();
-		boolean status = false;
-		for (Role role : roles) {
-			if (!role.getName().equals("ROLE_AUTHOR")
-					&& !bookService.getBooksById(id).getAuthor().equals(Tools.getCurrentUser())) {
-				status = true;
-			}
-			if (role.getName().equals("ROLE_ADMIN")) {
-				status = false;
-			}
-		}
-		return !status;
-	}
-
 	@PostMapping("/{id}/createComment")
 	public String createComment(Model model, @ModelAttribute("CommentDto") CommentDto comDto,
 			@PathVariable("id") int id) {
@@ -223,6 +208,9 @@ public class BooksController {
 	@PostMapping("/{id}/comment/{comId}/update")
 	public String updateComment(Model model, @PathVariable("id") int id, @PathVariable("comId") int comId,
 			@ModelAttribute("CommentDto") CommentDto comDto) throws Exception {
+		if (!validatePermForComment(comId)) {
+			return "redirect:/Books/" + id + "?errorPermissions";
+		}
 		comDto.setPublicationDate(new Date(System.currentTimeMillis()));
 		comDto.setBookId(id);
 		commentService.update(comDto, comId);
@@ -231,7 +219,39 @@ public class BooksController {
 
 	@PostMapping("/{id}/comment/{comId}/delete")
 	public String deleteComment(Model model, @PathVariable("id") int id, @PathVariable("comId") int comId) {
+		if (!validatePermForComment(comId)) {
+			return "redirect:/Books/" + id + "?errorPermissions";
+		}
 		commentService.delete(comId);
 		return "redirect:/Books/" + id;
+	}
+
+	private boolean validatePermForComment(int comId) {
+		Collection<Role> roles = Tools.getCurrentUser().getRoles();
+		boolean status = false;
+		for (Role role : roles) {
+			if (commentService.getCommentsById(comId).getAuthor().equals(Tools.getCurrentUser())) {
+				status = true;
+			}
+			if (role.getName().equals("ROLE_ADMIN")) {
+				status = false;
+			}
+		}
+		return !status;
+	}
+
+	private boolean validatePermForBook(int id) {
+		Collection<Role> roles = Tools.getCurrentUser().getRoles();
+		boolean status = false;
+		for (Role role : roles) {
+			if (!role.getName().equals("ROLE_AUTHOR")
+					&& !bookService.getBooksById(id).getAuthor().equals(Tools.getCurrentUser())) {
+				status = true;
+			}
+			if (role.getName().equals("ROLE_ADMIN")) {
+				status = false;
+			}
+		}
+		return !status;
 	}
 }
