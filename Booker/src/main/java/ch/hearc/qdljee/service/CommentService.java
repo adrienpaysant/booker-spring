@@ -44,11 +44,12 @@ public class CommentService {
 		commentRepository.save(com);
 	}
 
-	public void update(CommentDto comDto, String data, int id) throws Exception {
+	public void update(CommentDto comDto, int id) throws Exception {
 		Optional<Comments> com = commentRepository.findById(id);
 		if (com.isEmpty())
 			throw new Exception("no comment to update");
 		com.get().addAttributes(comDto.getData(), Tools.getCurrentUser(), comDto.getPublicationDate());
+		System.out.println(com.get().getData());
 		commentRepository.save(com.get());
 	}
 

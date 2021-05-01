@@ -67,15 +67,20 @@
 		<div class="container">
 			<div class="form-group">
 				<div th:switch="${com.author.id==userId}">
-					<form
-						th:action="@{/Books/{id}/comment/{comId}/update(id=${book.id},comId=${com.id})}"
-						method="post" th:object="${comForm}">
-						<i th:case="true" class="fas fa-check green-text"> <textarea
-								th:utext="${com.data}" th:field="${comForm.data}"></textarea>
-							<button type="submit" class="btn btn-success">Update</button>
-						</i>
-					</form>
-					<i th:case="false" class="fas fa-times red-text"><textarea
+
+					<i th:case="true" class="fas fa-check green-text">
+
+						<form
+							th:action="@{/Books/{id}/comment/{comId}/update(id=${book.id},comId=${com.id})}"
+							method="post" th:object="${comForm}">
+							<textarea name="data" class="form-control" th:utext="${com.data}"></textarea>
+								<button type="submit" class="btn btn-success">Update</button>
+						</form>
+						<form
+							th:action="@{/Books/{id}/comment/{comId}/delete(id=${book.id},comId=${com.id})}"
+							method="post">
+							<button type="submit" class="btn btn-warning">Delete</button>
+					</i> <i th:case="false" class="fas fa-times red-text"><textarea
 							th:utext="${com.data}" disabled></textarea></i>
 				</div>
 			</div>

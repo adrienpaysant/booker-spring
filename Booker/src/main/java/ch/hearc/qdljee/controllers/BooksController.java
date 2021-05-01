@@ -142,7 +142,7 @@ public class BooksController {
 		return "redirect:/Books";
 	}
 
-	@DeleteMapping("/{id}")
+	@PostMapping("/{id}/delete")
 	public String deleteBook(Model model, @PathVariable("id") int id) {
 		bookService.delete(id);
 		return "redirect:/Books";
@@ -200,11 +200,11 @@ public class BooksController {
 			@ModelAttribute("CommentDto") CommentDto comDto) throws Exception {
 		comDto.setPublicationDate(new Date(System.currentTimeMillis()));
 		comDto.setBookId(id);
-		commentService.update(comDto,comId,comDto.getData());
+		commentService.update(comDto, comId);
 		return "redirect:/Books/" + id;
 	}
 
-	@DeleteMapping("/{id}/deleteCom/{comId}")
+	@PostMapping("/{id}/comment/{comId}/delete")
 	public String deleteComment(Model model, @PathVariable("id") int id, @PathVariable("comId") int comId) {
 		commentService.delete(comId);
 		return "redirect:/Books/" + id;
