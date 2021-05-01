@@ -1,6 +1,7 @@
 package ch.hearc.qdljee.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ch.hearc.qdljee.Tools;
+import ch.hearc.qdljee.controllers.BooksController;
 import ch.hearc.qdljee.dto.CommentDto;
 import ch.hearc.qdljee.model.Comments;
 import ch.hearc.qdljee.repository.CommentRepository;
@@ -31,6 +33,7 @@ public class CommentService {
 				bookComments.add(comment);
 			}
 		}
+		Collections.reverse(bookComments);
 		return bookComments;
 	}
 

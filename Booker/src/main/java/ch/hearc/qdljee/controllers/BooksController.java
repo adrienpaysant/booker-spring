@@ -73,9 +73,9 @@ public class BooksController {
 			@RequestParam("size") Optional<Integer> size, @RequestParam(required = false) String valueSearch,
 			@RequestParam(required = false) String criterSearch) {
 		int currentPage = page.orElse(1);
-		int pageSize = size.orElse(10);
-		if (pageSize > 10) {
-			pageSize = 10;
+		int pageSize = size.orElse(8);
+		if (pageSize >= 8) {
+			pageSize = 8;
 		}
 		if (valueSearch == null && criterSearch == null) {
 			Page<Books> bookPage = bookService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
