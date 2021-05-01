@@ -153,7 +153,7 @@ public class BooksController {
 		User author = ((ShopUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
 				.getUser();
 		bookService.save(bookDto, imageURL, author);
-		return "redirect:/Books";
+		return "redirect:/Books/?bookCreated";
 	}
 
 	@PostMapping("/{id}/delete")
@@ -205,7 +205,7 @@ public class BooksController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/Books/" + id;
+		return "redirect:/Books/" + id+"/?bookUpdated";
 	}
 
 	@PostMapping("/{id}/createComment")
@@ -216,7 +216,7 @@ public class BooksController {
 			comDto.setBookId(id);
 			commentService.save(comDto);
 		}
-		return "redirect:/Books/" + id;
+		return "redirect:/Books/" + id+"/?commentAdd";
 	}
 
 	@PostMapping("/{id}/comment/{comId}/update")
@@ -228,7 +228,7 @@ public class BooksController {
 		comDto.setPublicationDate(new Date(System.currentTimeMillis()));
 		comDto.setBookId(id);
 		commentService.update(comDto, comId);
-		return "redirect:/Books/" + id;
+		return "redirect:/Books/" + id+"/?commentEdit";
 	}
 
 	@PostMapping("/{id}/comment/{comId}/delete")
@@ -237,7 +237,7 @@ public class BooksController {
 			return "redirect:/Books/" + id + "?errorPermissions";
 		}
 		commentService.delete(comId);
-		return "redirect:/Books/" + id;
+		return "redirect:/Books/" + id+"/?commentDeleted";
 	}
 
 	private boolean validatePermForComment(int comId) {
