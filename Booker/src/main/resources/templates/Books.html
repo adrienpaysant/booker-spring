@@ -16,8 +16,12 @@
 	<div class="container">
 		<h1>Books</h1>
 		<div th:if="${param.errorPermissions}">
-						<div class="alert alert-warning">You can't do that ! Wrong Permissions !</div>
-					</div>
+			<div class="alert alert-warning">You can't do that ! Wrong
+				Permissions !</div>
+		</div>
+		<div th:if="${param.bookCreated}">
+			<div class="alert alert-info"> Book Created !</div>
+		</div>
 		<!-- PAGINATION BEGIN -->
 		<div id="searchBar" class="mb-0">
 			<form th:action="@{/Books/search}" method="get" th:object="${sForm}">

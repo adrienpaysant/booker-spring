@@ -20,6 +20,23 @@
 			<div class="alert alert-warning">You can't do that ! Wrong
 				Permissions !</div>
 		</div>
+		<div th:if="${param.ratingSucces}">
+			<div class="alert alert-info">Rating Applied !</div>
+		</div>
+		<div th:if="${param.commentAdd}">
+			<div class="alert alert-info">Comment Added !</div>
+		</div>
+		<div th:if="${param.commentEdit}">
+			<div class="alert alert-info">Comment Edited !</div>
+		</div>
+		<div th:if="${param.commentDeleted}">
+			<div class="alert alert-info">Comment Deleted !</div>
+		</div>
+		<div th:if="${param.bookUpdated}">
+			<div class="alert alert-info">Book Updated !</div>
+		</div>
+		
+		
 		<hr />
 		<img th:src="@{/images/{url}(url=${book.image})}" class="m-3"
 			style="max-width: 25vw; margin-bottom: 3vh" />
@@ -41,14 +58,17 @@
 			<dd class="col-sm-10" th:utext="${book.description}"
 				style="margin-bottom: 1vh"></dd>
 			<dt class="col-sm-2">Rating :</dt>
-			<dd class="col-sm-10" th:utext="${ratingGlobalValue} == 7 ? 'No rating yet' : ${ratingGlobalValue}"
+			<dd class="col-sm-10"
+				th:utext="${ratingGlobalValue} == 7 ? 'No rating yet' : ${ratingGlobalValue}"
 				style="margin-bottom: 1vh"></dd>
 		</dl>
 		<hr>
 		<div class="row">
-			<form th:action="@{/Books/{id}/rate(id=${book.id})}" method="post" class="mb-2">
-				<label for="value" class="m-2">Rate (0-5) :</label>
-				<input type="number" max="5" min"0" step="1" name="value" th:value="${ratingUserValue} == 7 ? '' : ${ratingUserValue} "/>
+			<form th:action="@{/Books/{id}/rate(id=${book.id})}" method="post"
+				class="mb-2">
+				<label for="value" class="m-2">Rate (0-5) :</label> <input
+					type="number" max="5" min"0" step="1" name="value"
+					th:value="${ratingUserValue} == 7 ? '' : ${ratingUserValue} " />
 				<button type="submit" class="btn btn-primary m-1">Rate</button>
 			</form>
 		</div>
