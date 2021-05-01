@@ -34,43 +34,47 @@
 				style="margin-bottom: 1vh"></dd>
 		</dl>
 		<a th:href="@{/Books/{id}/update(id=${book.id})}"
-			class="btn btn-primary">Update this book</a>
-	</div>
-<h3>Add a comment</h3>
-	<form th:action="@{/Books/{id}/createComment(id=${book.id})}"
-		method="post" th:object="${comForm}">
-		<textarea name="data" class="form-control"></textarea>
-		<button type="submit" class="btn btn-success">Add comment</button>
-	</form>
-	<h3>Comments</h3>
-	<div th:each="com : ${comments}">
-		<div class="container">
-			<div class="form-group">
-				<div th:switch="${com.author.id==userId}">
+			class="btn btn-primary mb-5">Update this book</a>
+		<h3 class="mt-5">Add a comment</h3>
+		<form th:action="@{/Books/{id}/createComment(id=${book.id})}"
+			method="post" th:object="${comForm}">
+			<textarea name="data" class="form-control m-3"></textarea>
+			<button type="submit" class="btn btn-success ml-3">Add comment</button>
+		</form>
+		<hr>
+		<h3>Comments</h3>
+		<div th:each="com : ${comments}">
+			<div class="container">
+				<div class="card mb-5">
+					<div th:switch="${com.author.id==userId}">
 
-					<i th:case="true" class="fas fa-check green-text">
+						<i th:case="true" class="fas fa-check green-text">
 
-						<form
-							th:action="@{/Books/{id}/comment/{comId}/update(id=${book.id},comId=${com.id})}"
-							method="post" th:object="${comForm}">
-							<textarea name="data" class="form-control" th:utext="${com.data}"></textarea>
-							<button type="submit" class="btn btn-success">Update</button>
-						</form>
-						<form
-							th:action="@{/Books/{id}/comment/{comId}/delete(id=${book.id},comId=${com.id})}"
-							method="post">
-							<button type="submit" class="btn btn-warning">Delete</button>
-					</i> <i th:case="false" class="fas fa-times red-text"><textarea
-							th:utext="${com.data}" disabled></textarea></i>
+							<form
+								th:action="@{/Books/{id}/comment/{comId}/update(id=${book.id},comId=${com.id})}"
+								method="post" th:object="${comForm}">
+								<textarea name="data" class="form-control w-50"
+									th:utext="${com.data}"></textarea>
+								<button type="submit" class="btn btn-success m-1">Update</button>
+							</form>
+
+							<form
+								th:action="@{/Books/{id}/comment/{comId}/delete(id=${book.id},comId=${com.id})}"
+								method="post">
+								<button type="submit" class="btn btn-danger m-1 ">Delete</button></form>
+						</i> <i th:case="false" class="fas fa-times red-text"><div class="card-body"
+							th:utext="${com.data}" ></div>
+							<div class="card-footer">
+									<span>By : <span
+										th:utext="${com.author.fullName}"></span><br> Last
+										updated : <span
+										th:utext="${com.publicationDate}"></span></span>
+								</div>
+						</i>
+					</div>
 				</div>
 			</div>
-			<div class="form-group">
-				<div class="row">
-					By : <label class="control-label" th:utext="${com.author.fullName}"></label>
-					On the : <label class="control-label"
-						th:utext="${com.publicationDate}"></label>
-				</div>
-			</div>
+
 		</div>
 	</div>
 </body>
