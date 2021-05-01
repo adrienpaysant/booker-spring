@@ -13,6 +13,10 @@
 	<div th:replace="navigationBar :: nav"></div>
 	<div class="container">
 		<h1 th:utext=${book.title}></h1>
+		<div th:if="${param.errorPermissions}">
+			<div class="alert alert-warning">You can't do that ! Wrong
+				Permissions !</div>
+		</div>
 		<hr />
 		<img th:src="@{/images/{url}(url=${book.image})}" class="m-3"
 			style="max-width: 25vw; margin-bottom: 3vh" />
@@ -62,36 +66,42 @@
 		<hr>
 		<h3>Comments</h3>
 		<div th:each="com : ${comments}">
-			<div class="container">
-				<div class="card mb-5">
-					<div th:switch="${com.author.id==userId}">
+			<div class="card mb-5">
+				<div th:switch="${com.author.id==userId }">
+					<i th:case="true" class="fas fa-check green-text">
+						<form
+							th:action="@{/Books/{id}/comment/{comId}/update(id=${book.id},comId=${com.id})}"
+							method="post" th:object="${comForm}" class="card-footer">
+							<textarea name="data" class="form-control card-body"
+								th:utext="${com.data}"></textarea>
+							<button type="submit" class="btn btn-success m-1">Update</button>
+						</form>
 
-						<i th:case="true" class="fas fa-check green-text">
-
-							<form
-								th:action="@{/Books/{id}/comment/{comId}/update(id=${book.id},comId=${com.id})}"
-								method="post" th:object="${comForm}" class="card-footer">
-								<textarea name="data" class="form-control card-body"
-									th:utext="${com.data}"></textarea>
-								<button type="submit" class="btn btn-success m-1">Update</button>
-							</form>
-
+						<form
+							th:action="@{/Books/{id}/comment/{comId}/delete(id=${book.id},comId=${com.id})}"
+							method="post" class="card-footer">
+							<button type="submit" class="btn btn-danger m-1 ">Delete</button>
+						</form>
+					</i> <i th:case="false" class="fas fa-times red-text"><div
+							class="card-body" th:utext="${com.data}"></div>
+						<div class="card-footer">
+							<span>By : <span th:utext="${com.author.fullName}"></span><br>
+								Last updated : <span th:utext="${com.publicationDate}"></span></span>
+						</div>
+						<div sec:authorize="hasRole('ROLE_ADMIN')">
 							<form
 								th:action="@{/Books/{id}/comment/{comId}/delete(id=${book.id},comId=${com.id})}"
 								method="post" class="card-footer">
-								<button type="submit" class="btn btn-danger m-1 ">Delete</button>
+								<button type="submit" class="btn btn-danger m-1 ">Delete
+									has Admin</button>
 							</form>
-						</i> <i th:case="false" class="fas fa-times red-text"><div
-								class="card-body" th:utext="${com.data}"></div>
-							<div class="card-footer">
-								<span>By : <span th:utext="${com.author.fullName}"></span><br>
-									Last updated : <span th:utext="${com.publicationDate}"></span></span>
-							</div> </i>
-					</div>
+
+						</div></i>
 				</div>
 			</div>
-
 		</div>
+
+	</div>
 	</div>
 </body>
 <br>
