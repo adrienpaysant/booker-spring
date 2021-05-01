@@ -29,10 +29,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ch.hearc.qdljee.Tools;
 import ch.hearc.qdljee.dto.BookDto;
+import ch.hearc.qdljee.dto.CommentDto;
 import ch.hearc.qdljee.dto.SearchDto;
 import ch.hearc.qdljee.model.Books;
 import ch.hearc.qdljee.model.User;
 import ch.hearc.qdljee.service.BookService;
+import ch.hearc.qdljee.service.CommentService;
 import ch.hearc.qdljee.service.ShopUserDetails;
 
 @Controller
@@ -42,6 +44,8 @@ public class BooksController {
 
 	@Autowired
 	BookService bookService;
+	@Autowired
+	CommentService commentService;
 	@Autowired
 	private HttpServletRequest request;
 	@Autowired
@@ -55,7 +59,7 @@ public class BooksController {
 
 	@GetMapping("/mybooks")
 	public String myBooks() {
-		return "redirect:/Books/?valueSearch="+Tools.getCurrentUser().getFullName()+"&criterSearch=author";
+		return "redirect:/Books/?valueSearch=" + Tools.getCurrentUser().getFullName() + "&criterSearch=author";
 	}
 
 	@GetMapping
@@ -100,6 +104,8 @@ public class BooksController {
 	@GetMapping("/{id}")
 	public String details(Model model, @PathVariable("id") int id) {
 		model.addAttribute("book", bookService.getBooksById(id));
+		model.addAttribute("comForm", new CommentDto());
+		model.addAttribute("comments", commentService.getAllCommentsForABook(id));
 		return "Details";
 	}
 
