@@ -58,21 +58,23 @@
 							Change firstname </label> <input type="text" name="firstName"
 							class="form-control" th:value="${user.firstName}" />
 					</div>
-					<h3>Edit email</h3>
-					<div th:if="${param.successEmail}">
-						<div class="alert alert-info">Email Updated !</div>
+					<div
+						sec:authorize="hasRole('ROLE_READER') || hasRole('ROLE_AUTHOR')">
+						<h3>Edit email</h3>
+						<div th:if="${param.successEmail}">
+							<div class="alert alert-info">Email Updated !</div>
+						</div>
+						<div th:if="${param.errorEmail}">
+							<div class="alert alert-warning">Email Updated Failed !</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label" for="email"> Change email </label> <span><br>
+								Current Email : <input id="emailUser" class="form-control"
+								th:value="${user.email}" type="email" disabled /> </span> <input
+								id="email" class="form-control" th:field="*{email}"
+								autofocus="autofocus" type="email" />
+						</div>
 					</div>
-					<div th:if="${param.errorEmail}">
-						<div class="alert alert-warning">Email Updated Failed !</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label" for="email"> Change email </label> <span><br>
-							Current Email : <input id="emailUser" class="form-control"
-							th:value="${user.email}" type="email" disabled /> </span> <input
-							id="email" class="form-control" th:field="*{email}"
-							autofocus="autofocus" type="email" />
-					</div>
-
 					<h3>Edit role</h3>
 					<div sec:authorize="hasRole('ROLE_READER')">
 						<div class="form-group">
