@@ -24,15 +24,15 @@ public class BookerUserTests {
 		assertEquals(1, userService.count());
 		userService.save(new User("Adrien", "Paysant", "booker@testing.test", "password",
 				Arrays.asList(new Role("ROLE_READER"))));
-		assertEquals(1, userService.count());
+		assertEquals(2, userService.count());
 	}
 
 	@Test
 	void testDeleteUser() {
-		assertEquals(1, userService.count());
+		assertEquals(2, userService.count());
 		User user = userService.findAll().iterator().next();
 		userService.deleteById(user.getId());
-		assertEquals(0, userService.count());
+		assertEquals(1, userService.count());
 	}
 
 	@Test
