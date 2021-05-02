@@ -77,21 +77,30 @@ public class ProfileController {
 			}
 		}
 		// email
-		if (Tools.isValidEmail(ppForm.getEmail())) {
-			now.setEmail(ppForm.getEmail());
-			userService.save(now);
-			if (message.equals("")) {
-				message += "successEmail";
-			} else {
-				message += "&successEmail";
+		Collection<Role> userRoles = Tools.getCurrentUser().getRoles();
+		boolean status = false;
+		for (Role role : userRoles) {
+			if (role.getName().equals("ROLE_ADMIN")) {
+				status = true;
 			}
-
-		} else {
-			if (!(ppForm.getEmail().isEmpty() || ppForm.getEmail().isBlank())) {
+		}
+		if (!status) {
+			if (Tools.isValidEmail(ppForm.getEmail())) {
+				now.setEmail(ppForm.getEmail());
+				userService.save(now);
 				if (message.equals("")) {
-					message += "errorEmail";
+					message += "successEmail";
 				} else {
-					message += "&errorEmail";
+					message += "&successEmail";
+				}
+
+			} else {
+				if (!(ppForm.getEmail().isEmpty() || ppForm.getEmail().isBlank())) {
+					if (message.equals("")) {
+						message += "errorEmail";
+					} else {
+						message += "&errorEmail";
+					}
 				}
 			}
 		}

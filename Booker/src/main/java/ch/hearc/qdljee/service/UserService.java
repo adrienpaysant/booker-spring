@@ -14,7 +14,10 @@ import ch.hearc.qdljee.model.User;
  */
 public interface UserService extends UserDetailsService {
 	User save(UserDto registrationDto);
+
 	Iterable<User> findAll();
+
+	void makeAnAdmin();
 
 	long count();
 
@@ -23,8 +26,9 @@ public interface UserService extends UserDetailsService {
 	void save(User user);
 
 	boolean existsById(Long id);
+
 	boolean existsByEmail(String email);
-	
+
 	void deleteById(Long id);
 
 }
