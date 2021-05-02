@@ -21,7 +21,7 @@ public class BookerUserTests {
 
 	@Test
 	void testInsertUser() {
-		assertEquals(0, userService.count());
+		assertEquals(1, userService.count());
 		userService.save(new User("Adrien", "Paysant", "booker@testing.test", "password",
 				Arrays.asList(new Role("ROLE_READER"))));
 		assertEquals(1, userService.count());
