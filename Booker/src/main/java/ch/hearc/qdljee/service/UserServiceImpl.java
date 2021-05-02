@@ -14,6 +14,11 @@ import ch.hearc.qdljee.model.Role;
 import ch.hearc.qdljee.model.User;
 import ch.hearc.qdljee.repository.UserRepository;
 
+/**
+ * 
+ * @author Adrien Paysant and Joris Monnet
+ *
+ */
 @Service
 public class UserServiceImpl implements UserService {
 

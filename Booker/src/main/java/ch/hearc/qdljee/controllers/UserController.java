@@ -10,6 +10,11 @@ import ch.hearc.qdljee.Tools;
 import ch.hearc.qdljee.dto.UserDto;
 import ch.hearc.qdljee.service.UserService;
 
+/**
+ * 
+ * @author Adrien Paysant and Joris Monnet
+ *
+ */
 @Controller
 @RequestMapping("/register")
 public class UserController {
@@ -26,17 +31,29 @@ public class UserController {
 		return new UserDto();
 	}
 
+	/**
+	 * Get register page
+	 * 
+	 * @return
+	 */
 	@GetMapping
 	public String showRegistrationForm() {
 		return "register";
 	}
 
+	/**
+	 * Register
+	 * 
+	 * @param registrationDto
+	 * @return
+	 */
 	@PostMapping
 	public String registerUserAccount(@ModelAttribute("user") UserDto registrationDto) {
 		if (registrationDto.getFirstName().length() >= 3 && registrationDto.getLastName().length() >= 3
 				&& Tools.isValidEmail(registrationDto.getEmail())
-				&& userService.existsByEmail(registrationDto.getEmail()) && !registrationDto.getFirstName().isBlank() &&  !registrationDto.getLastName().isBlank() 
-				&& !registrationDto.getFirstName().isEmpty() && !registrationDto.getLastName().isEmpty() &&  !registrationDto.getPassword().isBlank() 
+				&& userService.existsByEmail(registrationDto.getEmail()) && !registrationDto.getFirstName().isBlank()
+				&& !registrationDto.getLastName().isBlank() && !registrationDto.getFirstName().isEmpty()
+				&& !registrationDto.getLastName().isEmpty() && !registrationDto.getPassword().isBlank()
 				&& !registrationDto.getPassword().isEmpty()) {
 			userService.save(registrationDto);
 			return "redirect:/login";
