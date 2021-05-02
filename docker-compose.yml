@@ -43,13 +43,13 @@ services:
       - backend
       - frontend
 
-  # katalon-executor:
-  #   container_name: katalon-executor
-  #   build: ./katalon/
-  #   ports: 
-  #     - "8888:8080"
-  #   volumes:
-  #     - .:/
+  katalon-executor:
+    container_name: katalon-executor
+    build: ./Katalon/Booker-Kat
+    ports: 
+      - "8888:8088"
+    volumes:
+      - .:/
 
 
 volumes:
