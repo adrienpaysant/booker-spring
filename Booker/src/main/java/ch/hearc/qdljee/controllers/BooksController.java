@@ -197,7 +197,7 @@ public class BooksController {
 				+ bookDto.getImage().getContentType().substring(6);
 		
 		try {
-			String path = servletContext.getResource("/img/").getPath();
+			String path = servletContext.getRealPath("/img/");
 			File image = new File(path + imageURL).getAbsoluteFile();
 			InputStream is = bookDto.getImage().getInputStream();
 			OutputStream out = new FileOutputStream(image);
