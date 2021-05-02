@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
@@ -191,11 +192,13 @@ public class BooksController {
 	@PostMapping("/create")
 	public String createBook(Model model, @ModelAttribute("BookDto") BookDto bookDto) {
 		ServletContext servletContext = request.getServletContext();
-		String path = servletContext.getResourcePaths("/") + environment.getProperty("images.path");
+
 		String imageURL = bookDto.getTitle() + bookDto.getEdition() + "."
 				+ bookDto.getImage().getContentType().substring(6);
-		File image = new File(path + imageURL).getAbsoluteFile();
+		
 		try {
+			String path = servletContext.getResource("/img/").getPath();
+			File image = new File(path + imageURL).getAbsoluteFile();
 			InputStream is = bookDto.getImage().getInputStream();
 			OutputStream out = new FileOutputStream(image);
 			byte buf[] = new byte[1024];
