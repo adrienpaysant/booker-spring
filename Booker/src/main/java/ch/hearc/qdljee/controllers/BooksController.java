@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.Files;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
@@ -12,10 +11,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,6 +62,9 @@ public class BooksController {
 
 	@Autowired
 	RatingsService ratingsService;
+
+	@Autowired
+	HttpServletRequest request;
 
 	@Autowired
 	private Environment environment;
@@ -184,7 +190,8 @@ public class BooksController {
 	 */
 	@PostMapping("/create")
 	public String createBook(Model model, @ModelAttribute("BookDto") BookDto bookDto) {
-		String path = environment.getProperty("images.path");
+		ServletContext servletContext = request.getServletContext();
+		String path = servletContext.getResourcePaths("/") + environment.getProperty("images.path");
 		String imageURL = bookDto.getTitle() + bookDto.getEdition() + "."
 				+ bookDto.getImage().getContentType().substring(6);
 		File image = new File(path + imageURL).getAbsoluteFile();
@@ -253,7 +260,8 @@ public class BooksController {
 
 		String imageURL = null;
 		if (bookDto.getImage() != null && !bookDto.getImage().getOriginalFilename().contains("octet-stream")) {
-			String path = environment.getProperty("images.path");
+			ServletContext servletContext = request.getServletContext();
+			String path = servletContext.getResourcePaths("/") + environment.getProperty("images.path");
 			imageURL = bookDto.getTitle() + bookDto.getEdition() + "."
 					+ bookDto.getImage().getContentType().substring(6);
 			File image = new File(path + imageURL).getAbsoluteFile();
