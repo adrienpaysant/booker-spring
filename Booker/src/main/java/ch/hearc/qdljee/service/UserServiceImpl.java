@@ -1,6 +1,7 @@
 package ch.hearc.qdljee.service;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,24 @@ public class UserServiceImpl implements UserService {
 	public UserServiceImpl(UserRepository userRepository) {
 		super();
 		this.userRepository = userRepository;
+		makeAnAdmin();
+	}
+
+	@Override
+	public void makeAnAdmin() {
+		// check if admin
+		List<User> allUser = userRepository.findAll();
+		boolean status = false;
+		for (User user : allUser) {
+			if (user.getEmail().equals("admin@booker.ch")) {
+				status = true;
+			}
+		}
+		if (!status) {
+			User user = new User("admin", "admin", "admin@booker.ch",new  BCryptPasswordEncoder().encode("admin"),
+					Arrays.asList(new Role("ROLE_ADMIN")));
+			this.userRepository.save(user);
+		}
 	}
 
 	@Override

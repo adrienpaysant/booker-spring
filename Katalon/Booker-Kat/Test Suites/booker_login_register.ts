@@ -12,15 +12,15 @@
    <rerunImmediately>false</rerunImmediately>
    <testSuiteGuid>edf2f68a-afb4-4cfd-a5c6-5c999e472a7b</testSuiteGuid>
    <testCaseLink>
-      <guid>c3ca27e0-5978-49e0-ba27-867c531c4911</guid>
+      <guid>4b8132f9-1662-434a-9160-e13f76f3779c</guid>
+      <isReuseDriver>false</isReuseDriver>
+      <isRun>true</isRun>
+      <testCaseId>Test Cases/navigationPages</testCaseId>
+   </testCaseLink>
+   <testCaseLink>
+      <guid>ad49ea2a-2ccd-4f58-b8a9-7cfc64d5b417</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
       <testCaseId>Test Cases/changePassword</testCaseId>
-   </testCaseLink>
-   <testCaseLink>
-      <guid>0f76e5a6-0e7d-479a-81e5-e083af1ba3f7</guid>
-      <isReuseDriver>false</isReuseDriver>
-      <isRun>true</isRun>
-      <testCaseId>Test Cases/login</testCaseId>
    </testCaseLink>
 </TestSuiteEntity>
